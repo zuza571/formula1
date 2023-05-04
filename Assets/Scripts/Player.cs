@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Game gameMaster;
+    private GameMaster gameMaster;
     void Start()
     {
-        gameMaster = FindObjectOfType<Game>();
-    }
-
-    public void MakeMove()
-    {
-        gameMaster.EndTurn();
+        gameMaster = FindObjectOfType<GameMaster>();
     }
 }

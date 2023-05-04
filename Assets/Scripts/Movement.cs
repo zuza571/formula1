@@ -1,18 +1,26 @@
+using System.Collections;
 using System.Collections.Generic;
-using DefaultNamespace;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private PlayerParams playerParams;
-    private SpeedChanging speedChanging;
+    public int currentSpeed = 0;
+    public int tires = 40;
+    public bool moveAllowed = false; 
+    public int movementPoints = 0;
 
-    public Movement(PlayerParams playerParams)
-    {
-        this.playerParams = playerParams;
-    }
+    private Vector3 transformPosition;
 
-    private Dictionary<int, int> fields = new Dictionary<int, int>()
+    private bool isMoving = false;
+    private int whosTurn;
+    private bool isPlayerFirst;
+
+    // todo: odczytywanie prędkości z UI
+    int chosenSpeed = 80;
+
+    private Coroutine moveCoroutine;
+
+    private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
         { 0, 0 },
         { 40, 1 },
@@ -25,12 +33,159 @@ public class Movement : MonoBehaviour
         { 320, 8 }
     };
 
-    public int Move(int chosenSpeed)
+    private void Start()
     {
-        speedChanging = new SpeedChanging(playerParams);
-        speedChanging.ChangeParams(chosenSpeed);
-        int movementFields = fields[playerParams.speed];
+        transformPosition = gameObject.transform.position;
+        if (gameObject.name == "Player1")
+        {
+            isPlayerFirst = true;
+        }
+        else
+        {
+            isPlayerFirst = false;
+        }
 
-        return movementFields;
+        if (isPlayerFirst)
+        {
+            whosTurn = 1;
+        }
+        else
+        {
+            whosTurn = -1;
+        }
+    }
+    
+    private void Update()
+    {
+        if (!isMoving)
+        {
+            if (moveAllowed && moveCoroutine == null)
+            {
+                moveCoroutine = StartCoroutine(Move());
+            } 
+        }
+    }
+
+    IEnumerator Move()
+    {
+        if (isMoving) { yield break; }
+        isMoving = true;
+
+        int[] playerParams = SpeedChanging.ChangeParams(chosenSpeed, currentSpeed, tires);
+
+        currentSpeed = playerParams[0];
+        tires = playerParams[1];
+
+        movementPoints = moves[currentSpeed];
+
+        // todo 2: który tor mozliwy
+        // todo 3: zakręty - obrót i zmiana pozycji
+
+        while (movementPoints > 0)
+        {
+            // left track
+            if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
+            {
+                if (Quaternion.Equals(transform.rotation.z, 180f))
+                {
+                    transformPosition.x += 1;
+                    transformPosition.y -= 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 270f))
+                {
+                    transformPosition.x += 1;
+                    transformPosition.y += 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 0f))
+                {
+                    transformPosition.x -= 1;
+                    transformPosition.y += 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 90f))
+                {
+                    transformPosition.x -= 1;
+                    transformPosition.y -= 1;
+                }
+
+                movementPoints--;
+            }
+            // right track
+            else if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
+            {
+                if (Quaternion.Equals(transform.rotation.z, 180f))
+                {
+                    transformPosition.x -= 1;
+                    transformPosition.y -= 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 270f))
+                {
+                    transformPosition.x += 1;
+                    transformPosition.y -= 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 0f))
+                {
+                    transformPosition.x += 1;
+                    transformPosition.y += 1;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 90f))
+                {
+                    transformPosition.x -= 1;
+                    transformPosition.y += 1;
+                }
+
+                movementPoints--;
+            }
+            // current track
+            else if (Input.GetAxis("Vertical") > 0 || Input.GetKeyDown(KeyCode.W))
+            {
+                if (Quaternion.Equals(transform.rotation.z, 180f))
+                {
+                    transformPosition.y -= 2;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 270f))
+                {
+                    transformPosition.x += 2;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 0f))
+                {
+                    transformPosition.y += 2;
+                }
+                else if (Quaternion.Equals(transform.rotation.z, 90f))
+                {
+                    transformPosition.x -= 2;
+                }
+
+                movementPoints--;
+            }
+
+            while (NextFieled(transformPosition))
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        isMoving = false;
+        
+        
+        whosTurn *= -1;
+        
+        if (whosTurn == 1)
+        {
+            GameMaster.MovePlayer(1);
+        }
+        else if (whosTurn == -1)
+        {
+            GameMaster.MovePlayer(2);
+        }
+
+        moveCoroutine = null;
+    }
+    
+    bool NextFieled(Vector3 dest)
+    {
+        return dest != (transform.position = Vector3.MoveTowards(transform.position, 
+            dest, 4*Time.deltaTime));
     }
 }

@@ -1,57 +1,60 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DefaultNamespace
+public class SpeedChanging : MonoBehaviour
 {
-    public class SpeedChanging
+    //private PlayerParams playerParams;
+
+    // public SpeedChanging(PlayerParams playerParams)
+    // {
+    //     this.playerParams = playerParams;
+    // }
+
+    private static Dictionary<int, int> acceleration = new Dictionary<int, int>()
     {
-        private PlayerParams playerParams;
+        { 40, 0 },
+        { 80, 0 },
+        { 120, 0 },
+        { 160, 1 },
+        { 200, 2 },
+        { 240, 4 },
+        { 280, 8 },
+        { 320, 16 }
+    };
 
-        public SpeedChanging(PlayerParams playerParams)
+    private static Dictionary<int, int> braking = new Dictionary<int, int>()
+    {
+        { 40, 0 },
+        { 80, 1 },
+        { 120, 2 },
+        { 160, 3 },
+        { 200, 4 },
+        { 240, 5 },
+        { 280, 6 },
+        { 320, 7 }
+    };
+
+    // change Player parameters because of speed changing
+    public static int[] ChangeParams(int chosenSpeed, int currentSpeed, int tires)
+    {
+        // todo: przekazanie konkretnego gracza
+        if (currentSpeed < chosenSpeed)
         {
-            this.playerParams = playerParams;
+            int key = chosenSpeed - currentSpeed;
+            tires -= acceleration[key];
+        }
+        else if (currentSpeed > chosenSpeed)
+        {
+            int key = currentSpeed - chosenSpeed;
+            tires -= braking[key];
         }
 
-        private Dictionary<int, int> acceleration = new Dictionary<int, int>()
-        {
-            { 40, 0 },
-            { 80, 0 },
-            { 120, 0 },
-            { 160, 1 },
-            { 200, 2 },
-            { 240, 4 },
-            { 280, 8 },
-            { 320, 16 }
-        };
-
-        private Dictionary<int, int> braking = new Dictionary<int, int>()
-        {
-            { 40, 0 },
-            { 80, 1 },
-            { 120, 2 },
-            { 160, 3 },
-            { 200, 4 },
-            { 240, 5 },
-            { 280, 6 },
-            { 320, 7 }
-        };
-
-        // change Player parameters because of speed changing
-        public void ChangeParams(int chosenSpeed)
-        {
-            // todo: przekazanie konkretnego gracza
-            if (playerParams.speed < chosenSpeed)
-            {
-                int key = chosenSpeed - playerParams.speed;
-                playerParams.tires -= acceleration[key];
-                playerParams.speed = chosenSpeed;
-            }
-            else if (playerParams.speed > chosenSpeed)
-            {
-                int key = playerParams.speed - chosenSpeed;
-                playerParams.tires -= braking[key];
-                playerParams.speed = chosenSpeed;
-            }
-        }
+        currentSpeed = chosenSpeed;
+        
+        int[] playerParams = { currentSpeed, tires };
+        
+        return playerParams;
     }
+    
+   
 }
