@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public int currentSpeed = 0;
+    public int currentSpeed;
     public int tires = 40;
-    public bool moveAllowed = false; 
-    public int movementPoints = 0;
+    public bool moveAllowed; 
+    public int movementPoints;
 
     private Vector3 transformPosition;
-
-    private bool isMoving = false;
-    private int whosTurn;
-    private bool isPlayerFirst;
-
-    // todo: odczytywanie prędkości z UI
-    int chosenSpeed = 80;
-
     private Coroutine moveCoroutine;
 
+    private bool isMoving;
+    private int whosTurn;
+    
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
         { 0, 0 },
@@ -33,37 +28,17 @@ public class Movement : MonoBehaviour
         { 320, 8 }
     };
 
-    private void Start()
-    {
-        transformPosition = gameObject.transform.position;
-        if (gameObject.name == "Player1")
-        {
-            isPlayerFirst = true;
-        }
-        else
-        {
-            isPlayerFirst = false;
-        }
-
-        if (isPlayerFirst)
-        {
-            whosTurn = 1;
-        }
-        else
-        {
-            whosTurn = -1;
-        }
-    }
+    // todo: odczytywanie prędkości z UI
+    int chosenSpeed = 160;
+    
+    private void Start() { transformPosition = gameObject.transform.position; }
     
     private void Update()
     {
-        if (!isMoving)
-        {
-            if (moveAllowed && moveCoroutine == null)
-            {
-                moveCoroutine = StartCoroutine(Move());
-            } 
-        }
+        if (gameObject.name == "Player1") { whosTurn = 1; }
+        else { whosTurn = -1; }
+        
+        if (!isMoving) { if (moveAllowed && moveCoroutine == null) { moveCoroutine = StartCoroutine(Move()); } }
     }
 
     IEnumerator Move()
@@ -158,34 +133,21 @@ public class Movement : MonoBehaviour
                 movementPoints--;
             }
 
-            while (NextFieled(transformPosition))
-            {
-                yield return null;
-            }
+            while (NextFieled(transformPosition)) { yield return null; }
 
             yield return new WaitForSeconds(0.1f);
         }
 
+        whosTurn = -whosTurn;
         isMoving = false;
         
-        
-        whosTurn *= -1;
-        
-        if (whosTurn == 1)
-        {
-            GameMaster.MovePlayer(1);
-        }
-        else if (whosTurn == -1)
-        {
-            GameMaster.MovePlayer(2);
-        }
+        if (whosTurn == 1) { GameMaster.MovePlayer(1); }
+        else if (whosTurn == -1) { GameMaster.MovePlayer(2); }
 
         moveCoroutine = null;
     }
     
-    bool NextFieled(Vector3 dest)
-    {
+    bool NextFieled(Vector3 dest) {
         return dest != (transform.position = Vector3.MoveTowards(transform.position, 
-            dest, 4*Time.deltaTime));
-    }
+            dest, 4*Time.deltaTime)); }
 }
