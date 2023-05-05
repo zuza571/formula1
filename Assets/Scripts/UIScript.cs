@@ -7,6 +7,8 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
 {
     private GameObject speed0, speed40, speed80, speed120, speed160, speed200, speed240, speed280, speed320;
     private Dictionary<GameObject, int> speeds = new Dictionary<GameObject, int>();
+
+    private int chosenSpeed;
     void Start()
     {
         speed0 = GameObject.Find("Button0");
@@ -28,48 +30,68 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
         speeds.Add(speed240, 240);
         speeds.Add(speed280, 280);
         speeds.Add(speed320, 320);
+        
+        // EventTrigger for each button
+        AddEventTrigger(speed0);
+        AddEventTrigger(speed40);
+        AddEventTrigger(speed80);
+        AddEventTrigger(speed120);
+        AddEventTrigger(speed160);
+        AddEventTrigger(speed200);
+        AddEventTrigger(speed240);
+        AddEventTrigger(speed280);
+        AddEventTrigger(speed320);
+    }
+    
+    private void AddEventTrigger(GameObject button)
+    {
+        // add EventTrigger if empty
+        if (button.GetComponent<EventTrigger>() == null) { button.AddComponent<EventTrigger>(); }
+
+        // add PointerClick event to EventTrigger
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((data) => { OnPointerClick((PointerEventData)data); });
+        trigger.triggers.Add(entry);
     }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        int newSpeed = 0;
-        string buttonName = eventData.pointerCurrentRaycast.gameObject.name;
+        string buttonName = eventData.pointerPress.gameObject.name;
 
         switch (buttonName)
         {
             case "Button0":
-                newSpeed = speeds[speed0];
+                chosenSpeed = speeds[speed0];
                 break;
             case "Button40":
-                newSpeed = speeds[speed40];
+                chosenSpeed = speeds[speed40];
                 break;
             case "Button80":
-                newSpeed = speeds[speed80];
+                chosenSpeed = speeds[speed80];
                 break;
             case "Button120":
-                newSpeed = speeds[speed120];
+                chosenSpeed = speeds[speed120];
                 break; 
             case "Button160":
-                newSpeed = speeds[speed160];
+                chosenSpeed = speeds[speed160];
                 break; 
             case "Button200":
-                newSpeed = speeds[speed200];
+                chosenSpeed = speeds[speed200];
                 break; 
             case "Button240":
-                newSpeed = speeds[speed240];
+                chosenSpeed = speeds[speed240];
                 break; 
             case "Button280":
-                newSpeed = speeds[speed280];
+                chosenSpeed = speeds[speed280];
                 break; 
             case "Button320":
-                newSpeed = speeds[speed320];
+                chosenSpeed = speeds[speed320];
                 break;
             default:
                 break;
         }
-        
-        
-        Debug.Log(newSpeed);
     }
-    
+    public int ChosenSpeed { get { return chosenSpeed; } }
 }

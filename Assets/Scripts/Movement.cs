@@ -14,7 +14,10 @@ public class Movement : MonoBehaviour
 
     private bool isMoving;
     private int whosTurn;
-    
+
+    private static UIScript uiScript;
+    private int chosenSpeed;
+
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
         { 0, 0 },
@@ -27,21 +30,31 @@ public class Movement : MonoBehaviour
         { 280, 7 },
         { 320, 8 }
     };
-
-    // todo: odczytywanie prędkości z UI
-    int chosenSpeed = 160;
     
-    private void Start() { transformPosition = gameObject.transform.position; }
+    private void Start()
+    {
+        transformPosition = gameObject.transform.position; 
+        uiScript = FindObjectOfType<UIScript>();
+    }
     
     private void Update()
     {
         if (gameObject.name == "Player1") { whosTurn = 1; }
         else { whosTurn = -1; }
         
-        if (!isMoving) { if (moveAllowed && moveCoroutine == null) { moveCoroutine = StartCoroutine(Move()); } }
+        if (!isMoving) {
+            if (moveAllowed && moveCoroutine == null)
+            {
+                chosenSpeed = uiScript.ChosenSpeed;
+                
+                // todo: do zmiany
+                Debug.Log(chosenSpeed);
+                moveCoroutine = StartCoroutine(Move());
+            } 
+        }
     }
 
-    IEnumerator Move()
+    IEnumerator Move() 
     {
         if (isMoving) { yield break; }
         isMoving = true;
