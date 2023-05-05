@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour
     public int tires = 40;
     public bool moveAllowed; 
     public int movementPoints;
+    public int lap = 1;
+    
 
     private Vector3 transformPosition;
     private Coroutine moveCoroutine;
@@ -17,6 +19,7 @@ public class Movement : MonoBehaviour
 
     private static UIScript uiScript;
     private int chosenSpeed;
+    private int track;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -41,15 +44,15 @@ public class Movement : MonoBehaviour
     {
         if (gameObject.name == "Player1") { whosTurn = 1; }
         else { whosTurn = -1; }
-        
+
         if (!isMoving) {
             if (moveAllowed && moveCoroutine == null)
             {
-                chosenSpeed = uiScript.ChosenSpeed;
-                
-                // todo: do zmiany
-                Debug.Log(chosenSpeed);
-                moveCoroutine = StartCoroutine(Move());
+                if (uiScript.HasChosenSpeed)
+                {
+                    chosenSpeed = uiScript.ChosenSpeed;
+                    moveCoroutine = StartCoroutine(Move());
+                }
             } 
         }
     }
@@ -146,7 +149,7 @@ public class Movement : MonoBehaviour
                 movementPoints--;
             }
 
-            while (NextFieled(transformPosition)) { yield return null; }
+            while (NextField(transformPosition)) { yield return null; }
 
             yield return new WaitForSeconds(0.1f);
         }
@@ -160,7 +163,18 @@ public class Movement : MonoBehaviour
         moveCoroutine = null;
     }
     
-    bool NextFieled(Vector3 dest) {
+    bool NextField(Vector3 dest) {
         return dest != (transform.position = Vector3.MoveTowards(transform.position, 
             dest, 4*Time.deltaTime)); }
+    
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other.name);
+        if (other.name == "Trigger1_turn2")
+        { 
+            transform.Rotate(0f, 0f, 90f);
+            Debug.Log("trigger");
+        }
+    }
 }

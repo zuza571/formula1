@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour, IPointerClickHandler
 {
@@ -9,6 +11,7 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
     private Dictionary<GameObject, int> speeds = new Dictionary<GameObject, int>();
 
     private int chosenSpeed;
+    private bool hasChosenSpeed;
     void Start()
     {
         speed0 = GameObject.Find("Button0");
@@ -42,7 +45,16 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
         AddEventTrigger(speed280);
         AddEventTrigger(speed320);
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+            Debug.Log("QUIT");
+        }
+    }
+
     private void AddEventTrigger(GameObject button)
     {
         // add EventTrigger if empty
@@ -59,6 +71,7 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         string buttonName = eventData.pointerPress.gameObject.name;
+        hasChosenSpeed = true;
 
         switch (buttonName)
         {
@@ -93,5 +106,21 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
                 break;
         }
     }
-    public int ChosenSpeed { get { return chosenSpeed; } }
+
+    public bool HasChosenSpeed
+    {
+        get
+        {
+            return hasChosenSpeed;
+        }
+    }
+
+    public int ChosenSpeed
+    {
+        get
+        {
+            hasChosenSpeed = false;
+            return chosenSpeed;
+        }
+    }
 }
