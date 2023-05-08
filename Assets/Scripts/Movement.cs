@@ -240,7 +240,7 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 13.5f;
+                transformPosition.y = 13f;
                 transformPosition.x = -14.5f;
                 transform.Rotate(0,0,-90);
             }
@@ -271,7 +271,7 @@ public class Movement : MonoBehaviour
                 transformPosition.x = -15f;
                 transform.Rotate(0,0,90);
             }
-            if (Math.Abs(transformPosition.y - 7.5f) < 0.05 && Math.Abs(transformPosition.x + 14.5f) < 0.05)
+            if (Math.Abs(transformPosition.y - 7f) < 0.05 && Math.Abs(transformPosition.x + 14.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 200)
@@ -486,16 +486,10 @@ public class Movement : MonoBehaviour
             GameMaster.UpdateLaps(transformPosition);
             
             // map edges
-            //if ((transformPosition.y > -15.05 && transformPosition.y < 13.05 && transformPosition.x > -29.55 && transformPosition.x < -27.45) 
-              //  || (transformPosition.y > 11.95 && transformPosition.y < 13.05 && transformPosition.x > -29.55 && transformPosition.x < -14.45)
-                
-                
-                
-                
             if ((transformPosition.y > -15.9 && transformPosition.y < 13.9 && transformPosition.x > -30.4 && transformPosition.x < -26.6) 
                 || (transformPosition.y > 10.6 && transformPosition.y < 14.4 && transformPosition.x > -30 && transformPosition.x < -14)
-                || (transformPosition.y > 4.1 && transformPosition.y < 13.9 && transformPosition.x > -17.4 && transformPosition.x < -15.6)
-                || (transformPosition.y > 3.9 && transformPosition.y < 7.4 && transformPosition.x > -16.55 && transformPosition.x < -1.45)
+                || (transformPosition.y > 4.1 && transformPosition.y < 13.9 && transformPosition.x > -17.4 && transformPosition.x < -13.6)
+                || (transformPosition.y > 3.9 && transformPosition.y < 7.4 && transformPosition.x > -17.4 && transformPosition.x < -0.6)
                 || (transformPosition.y > -24.9 && transformPosition.y < 6.9 && transformPosition.x > -4.4 && transformPosition.x < -0.6)
                 || (transformPosition.y > -24.9 && transformPosition.y < -22.1 && transformPosition.x > -19.9 && transformPosition.x < -0.6)
                 || (transformPosition.y > -24.9 && transformPosition.y < -13.1 && transformPosition.x > -19.4 && transformPosition.x < -15.6)
