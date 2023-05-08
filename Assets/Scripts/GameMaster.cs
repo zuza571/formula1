@@ -1,32 +1,39 @@
-using Unity.VisualScripting;
+using System;
+using TMPro;
 using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
     private static GameObject player1, player2;
 
-    public Transform triggerStart1, triggerStart2, triggerStart3;
-    public Transform trigger;
+    public static GameObject triggerStart1;
+    public static GameObject triggerStart2;
+    public static GameObject triggerStart3;
+
+    private static GameObject winText;
+
     void Start()
     {
         // todo: rzut kostką kto zaczyna
         player1 = GameObject.Find("Player1");
         player2 = GameObject.Find("Player2");
-        
-        player1.transform.position = triggerStart1.position;
-        player2.transform.position = triggerStart3.position;
-        
-        Debug.Log("trigger " + trigger.name + " " + trigger.position);
-        
+
+        triggerStart1 = GameObject.Find("Trigger_start1");
+        triggerStart2 = GameObject.Find("Trigger_start2");
+        triggerStart3 = GameObject.Find("Trigger_start3");
+
+        winText = GameObject.Find("Win");
+        winText.SetActive(false);
+
+        player1.transform.position = triggerStart1.transform.position;
+        player2.transform.position = triggerStart3.transform.position;
+
         player1.GetComponent<Movement>().moveAllowed = true;
         player2.GetComponent<Movement>().moveAllowed = false;
     }
 
     public static void MovePlayer(int playerToMove)
     {
-        
-        Debug.Log(player1.transform.position);
-
         switch (playerToMove)
         {
             case 1:
@@ -43,6 +50,61 @@ public class GameMaster : MonoBehaviour
                 player1.GetComponent<Movement>().moveAllowed = false;
                 player2.GetComponent<Movement>().moveAllowed = false;
                 break;
+        }
+    }
+
+    public static Vector3 OtherPlayerPosition(int currentPlayer)
+    {
+        Vector3 position = new (0,0,0);
+        switch (currentPlayer)
+        {
+            case 1:
+                position = player2.transform.position;
+                break;
+            case -1:
+                position = player1.transform.position;
+                break;
+        }
+
+        return position;
+    }
+
+    public static void UpdateLaps(Vector3 transformPosition)
+    {
+        if ((((Math.Abs(transformPosition.y - triggerStart1.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart1.transform.position.x) < 0.05))
+             || ((Math.Abs(transformPosition.y - triggerStart2.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart2.transform.position.x) < 0.05))
+             || ((Math.Abs(transformPosition.y - triggerStart3.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart3.transform.position.x) < 0.05)))
+            && 
+            (((Math.Abs((triggerStart1.transform.position.y - 2) - player1.transform.position.y) < 0.05 && Math.Abs(triggerStart1.transform.position.x - player1.transform.position.x) < 0.05))
+             || ((Math.Abs((triggerStart2.transform.position.y - 2) - player1.transform.position.y) < 0.05 && Math.Abs(triggerStart2.transform.position.x - player1.transform.position.x) < 0.05))
+             || ((Math.Abs((triggerStart3.transform.position.y - 2) - player1.transform.position.y) < 0.05 && Math.Abs(triggerStart3.transform.position.x - player1.transform.position.x) < 0.05)))
+            && player1.GetComponent<Movement>().moveAllowed)
+        {
+            player1.GetComponent<Movement>().lap++;
+            if (player1.GetComponent<Movement>().lap == 2)
+            {
+                Debug.Log("player1 wins");
+                winText.SetActive(true);
+            }
+        }
+        else if ((((Math.Abs(transformPosition.y - triggerStart1.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart1.transform.position.x) < 0.05))
+            || ((Math.Abs(transformPosition.y - triggerStart2.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart2.transform.position.x) < 0.05))
+            || ((Math.Abs(transformPosition.y - triggerStart3.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart3.transform.position.x) < 0.05)))
+            && 
+            (((Math.Abs((triggerStart1.transform.position.y - 2) - player2.transform.position.y) < 0.05 && Math.Abs(triggerStart1.transform.position.x - player2.transform.position.x) < 0.05))
+            || ((Math.Abs((triggerStart2.transform.position.y - 2) - player2.transform.position.y) < 0.05 && Math.Abs(triggerStart2.transform.position.x - player2.transform.position.x) < 0.05))
+            || ((Math.Abs((triggerStart3.transform.position.y - 2) - player2.transform.position.y) < 0.05 && Math.Abs(triggerStart3.transform.position.x - player2.transform.position.x) < 0.05)))
+            && player2.GetComponent<Movement>().moveAllowed)
+        {
+            Debug.Log(player2.transform.position);
+            Debug.Log(transformPosition);
+            
+            player2.GetComponent<Movement>().lap++;
+            if (player2.GetComponent<Movement>().lap == 2)
+            {
+                Debug.Log("player2 wins");
+                winText.SetActive(true);
+            }
         }
     }
 }

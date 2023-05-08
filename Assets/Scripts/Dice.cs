@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
+
 public class Dice : MonoBehaviour
 {
     private Sprite[] diceSlides;
     private new SpriteRenderer renderer;
     private bool coroutineAllowed = true;
-    
+    private int randomDiceSlide;
+    private bool isCoroutineRunning;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,40 +16,36 @@ public class Dice : MonoBehaviour
         diceSlides = Resources.LoadAll<Sprite>("Dice/dice");
         renderer.sprite = diceSlides[5];
     }
-
-    private void OnMouseDown()
-    {
-        if (coroutineAllowed)
-        {
-            StartCoroutine(RollTheDice());
-        }
-    }
-
-    private IEnumerator RollTheDice()
+    public IEnumerator RollTheDice()
     {
         coroutineAllowed = false;
-        int randomDiceSlide = 0;
+        isCoroutineRunning = true;
         for (int i = 0; i <= 20; i++)
         {
             randomDiceSlide = Random.Range(0, 6);
             renderer.sprite = diceSlides[randomDiceSlide];
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
 
-        /*
-        GameMaster.diceSideThrown = randomDiceSlide + 1;
-        if (whosTurn == 1)
-        {
-            GameMaster.MovePlayer(1);
-        }
-        else if (whosTurn == -1)
-        {
-            GameMaster.MovePlayer(2);
-        }
-
-        whosTurn *= -1;
-        */
-        
+        randomDiceSlide += 1;
+        isCoroutineRunning = false;
         coroutineAllowed = true;
+    }
+
+    public int RandomDiceSlide
+    {
+        get
+        {
+            if (isCoroutineRunning)
+            {
+                // Coroutine RollTheDice() is still running, return 0 as an error code
+                return 0;
+            }
+            else
+            {
+                // Coroutine RollTheDice() has finished, return the final value of randomDiceSlide
+                return randomDiceSlide;
+            }
+        }
     }
 }

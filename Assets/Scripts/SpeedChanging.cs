@@ -37,7 +37,6 @@ public class SpeedChanging : MonoBehaviour
     // change Player parameters because of speed changing
     public static int[] ChangeParams(int chosenSpeed, int currentSpeed, int tires)
     {
-        // todo: przekazanie konkretnego gracza
         if (currentSpeed < chosenSpeed)
         {
             int key = chosenSpeed - currentSpeed;
