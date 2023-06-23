@@ -1,15 +1,20 @@
-﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game/Game params")]
-public class GameParams : ScriptableObject
+public class GameParams : MonoBehaviour
 {
-    public GameObject currentPlayer;
-    [Space][Range(0, 8)]
-    public int movementFields;
-    
-    private void OnValidate()
+    public static int tires = 40;
+    public static int laps = 2;
+    public static int players = 2;
+    void Start()
     {
-       
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

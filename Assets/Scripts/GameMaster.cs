@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -9,8 +10,6 @@ public class GameMaster : MonoBehaviour
     public static GameObject triggerStart1;
     public static GameObject triggerStart2;
     public static GameObject triggerStart3;
-
-    private static GameObject winText;
 
     void Start()
     {
@@ -21,9 +20,6 @@ public class GameMaster : MonoBehaviour
         triggerStart1 = GameObject.Find("Trigger_start1");
         triggerStart2 = GameObject.Find("Trigger_start2");
         triggerStart3 = GameObject.Find("Trigger_start3");
-
-        winText = GameObject.Find("Win");
-        winText.SetActive(false);
 
         player1.transform.position = triggerStart1.transform.position;
         player2.transform.position = triggerStart3.transform.position;
@@ -81,10 +77,10 @@ public class GameMaster : MonoBehaviour
             && player1.GetComponent<Movement>().moveAllowed)
         {
             player1.GetComponent<Movement>().lap++;
-            if (player1.GetComponent<Movement>().lap == 2)
+            if (player1.GetComponent<Movement>().lap == GameParams.laps)
             {
-                Debug.Log("player1 wins");
-                winText.SetActive(true);
+                GameOver.winner = "Player 1 wins!";
+                SceneManager.LoadScene("TheEnd");
             }
         }
         else if ((((Math.Abs(transformPosition.y - triggerStart1.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart1.transform.position.x) < 0.05))
@@ -100,10 +96,10 @@ public class GameMaster : MonoBehaviour
             Debug.Log(transformPosition);
             
             player2.GetComponent<Movement>().lap++;
-            if (player2.GetComponent<Movement>().lap == 2)
+            if (player2.GetComponent<Movement>().lap == GameParams.laps)
             {
-                Debug.Log("player2 wins");
-                winText.SetActive(true);
+                GameOver.winner = "Player 2 wins!";
+                SceneManager.LoadScene("TheEnd");
             }
         }
     }
