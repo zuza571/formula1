@@ -103,4 +103,23 @@ public class GameMaster : MonoBehaviour
             }
         }
     }
+    
+    public static void CurrentUIGameMaster()
+    {
+        if (player1.GetComponent<Movement>().moveAllowed)
+        {
+            PanelUIMainMenuScript.CurrentPlayer = "Player 1";
+            PanelUIMainMenuScript.CurrentSpeed = player1.GetComponent<Movement>().currentSpeed;
+            PanelUIMainMenuScript.CurrentTires = player1.GetComponent<Movement>().tires;
+            PanelUIMainMenuScript.CurrentLap = player1.GetComponent<Movement>().lap + 1;
+        }
+        else if (player2.GetComponent<Movement>().moveAllowed)
+        {
+            PanelUIMainMenuScript.CurrentPlayer = "Player 2";
+            PanelUIMainMenuScript.CurrentSpeed = player2.GetComponent<Movement>().currentSpeed;
+            PanelUIMainMenuScript.CurrentTires = player2.GetComponent<Movement>().tires;
+            PanelUIMainMenuScript.CurrentLap = player2.GetComponent<Movement>().lap + 1;
+        }
+    }
+    
 }

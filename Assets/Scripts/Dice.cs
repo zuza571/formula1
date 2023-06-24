@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dice : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Dice : MonoBehaviour
     private bool coroutineAllowed = true;
     private int randomDiceSlide;
     private bool isCoroutineRunning;
+    public Image image;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class Dice : MonoBehaviour
         {
             randomDiceSlide = Random.Range(0, 6);
             renderer.sprite = diceSlides[randomDiceSlide];
+            image.sprite = diceSlides[randomDiceSlide];
             yield return new WaitForSeconds(0.2f);
         }
 

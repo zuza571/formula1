@@ -8,7 +8,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public int currentSpeed;
-    private int tires;
+    public int tires;
     public bool moveAllowed; 
     public int movementPoints;
     public int lap;
@@ -74,6 +74,7 @@ public class Movement : MonoBehaviour
         tires = playerParams[1];
 
         movementPoints = moves[currentSpeed];
+        PanelUIMainMenuScript.CurrentTires = tires;
 
         // todo: który tor możliwy - podświetlane pola
         // todo: wypadanie poza mapę
@@ -523,9 +524,17 @@ public class Movement : MonoBehaviour
 
         whosTurn = -whosTurn;
         isMoving = false;
-        
-        if (whosTurn == 1) { GameMaster.MovePlayer(1); }
-        else if (whosTurn == -1) { GameMaster.MovePlayer(2); }
+
+        if (whosTurn == 1)
+        {
+            GameMaster.MovePlayer(1);
+            GameMaster.CurrentUIGameMaster();
+        }
+        else if (whosTurn == -1)
+        {
+            GameMaster.MovePlayer(2);
+            GameMaster.CurrentUIGameMaster();
+        }
 
         moveCoroutine = null;
     }
@@ -565,7 +574,9 @@ public class Movement : MonoBehaviour
                             movementPoints = 0;
                             // stop rolling the dice
                             rollCount = 0;
+                            tires = 0;
                         }
+                        PanelUIMainMenuScript.CurrentTires = tires;
                         break;
                     case 2:
                         tires -= 2;
@@ -577,7 +588,9 @@ public class Movement : MonoBehaviour
                             movementPoints = 0;
                             // stop rolling the dice
                             rollCount = 0;
+                            tires = 0;
                         }
+                        PanelUIMainMenuScript.CurrentTires = tires;
                         break;
                     case 3:
                         tires -= 3;
@@ -589,7 +602,9 @@ public class Movement : MonoBehaviour
                             movementPoints = 0;
                             // stop rolling the dice
                             rollCount = 0;
+                            tires = 0;
                         }
+                        PanelUIMainMenuScript.CurrentTires = tires;
                         break;
                     case 4:
                         break;
@@ -603,6 +618,11 @@ public class Movement : MonoBehaviour
                         movementPoints = 0;
                         // stop rolling the dice
                         rollCount = 0;
+                        if (tires < 0)
+                        {
+                            tires = 0;
+                        }
+                        PanelUIMainMenuScript.CurrentTires = tires;
                         break;
                 }
             }
