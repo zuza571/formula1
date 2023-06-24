@@ -38,6 +38,6 @@ public class RulesPanel : MonoBehaviour
         Time.timeScale = 1f;
         isRules = false;
     }
-
+    
 }
 

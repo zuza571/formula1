@@ -4802,6 +4802,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862453577}
   m_CullTransparentMesh: 1
+--- !u!1 &903036932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903036933}
+  - component: {fileID: 903036935}
+  - component: {fileID: 903036934}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &903036933
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903036932}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1932342788}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &903036934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903036932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Back
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 42df1c7856584b6b8db9a509b6b10074, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 80
+  m_fontSizeBase: 80
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &903036935
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903036932}
+  m_CullTransparentMesh: 1
 --- !u!1 &924452998
 GameObject:
   m_ObjectHideFlags: 0
@@ -20650,6 +20785,7 @@ GameObject:
   - component: {fileID: 1448419275}
   - component: {fileID: 1448419274}
   - component: {fileID: 1448419276}
+  - component: {fileID: 1448419277}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -20697,6 +20833,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenu: {fileID: 948451218}
+--- !u!114 &1448419277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448419273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0ff11a19f20c94290ae2b04307d8c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rules: {fileID: 1863851489}
 --- !u!1 &1468567103
 GameObject:
   m_ObjectHideFlags: 0
@@ -22398,7 +22547,7 @@ GameObject:
   - component: {fileID: 1863851492}
   - component: {fileID: 1863851491}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: RulesPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22415,7 +22564,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1934614424}
+  - {fileID: 1932342788}
   m_Father: {fileID: 660482632}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22423,7 +22574,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1863851491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23036,6 +23187,309 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927360171}
+  m_CullTransparentMesh: 1
+--- !u!1 &1932342787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1932342788}
+  - component: {fileID: 1932342791}
+  - component: {fileID: 1932342790}
+  - component: {fileID: 1932342789}
+  m_Layer: 5
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1932342788
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932342787}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 903036933}
+  m_Father: {fileID: 1863851490}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -479}
+  m_SizeDelta: {x: 500, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1932342789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932342787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 0, b: 0, a: 0.15686275}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 0.23529412}
+    m_PressedColor: {r: 1, g: 0, b: 0, a: 0.39215687}
+    m_SelectedColor: {r: 1, g: 0, b: 0, a: 0.23529412}
+    m_DisabledColor: {r: 0.9607844, g: 0.9607844, b: 0.9607844, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1932342790}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1932342790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932342787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1932342791
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932342787}
+  m_CullTransparentMesh: 1
+--- !u!1 &1934614423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1934614424}
+  - component: {fileID: 1934614426}
+  - component: {fileID: 1934614425}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1934614424
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934614423}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1863851490}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 1800, y: 940}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1934614425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934614423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "Formu\u0142a 1 to gra, kt\xF3ra pozwala prze\u017Cy\u0107 emocje, znane
+    tylko kierowcom wy\u015Bcigowym. Niepotrzebne prawo jazdy, ani nawet karta rowerowa.
+    Wystarczy tylko przewidywa\u0107 posuni\u0119cia innych graczy i rozs\u0105dnie
+    regulowa\u0107 pr\u0119dko\u015B\u0107. Mo\u017Cna jecha\u0107 wolno, ale bezpiecznie
+    nie przejmuj\u0105c si\u0119 uciekaj\u0105cymi konkurentami. Mo\u017Cna szybko
+    - ryzykuj\u0105c wypadni\u0119cie z toru.\n\nSpos\xF3b poruszania samochod\xF3w
+    - Pojazdy mog\u0105 porusza\u0107 si\u0119 tylko do przodu \u2013 prosto lub
+    nauko z. Pole, na kt\xF3re wje\u017Cd\u017Ca samoch\xF3d przy zmianie pasa ruchu,
+    musi przylega\u0107 to pola, z kt\xF3rego zjecha\u0142 i mie\u0107 ko\u0144cow\u0105
+    kraw\u0119d\u017A po\u0142o\u017Con\u0105 dalej od pocz\u0105tku wy\u015Bcigu.
+    Zwr\xF3ci\u0107 uwag\u0119 na to, \u017Ce czasami przy zmianie pasa na bardziej
+    wewn\u0119trzny, z 2 kolejnych p\xF3l wje\u017Cd\u017Ca si\u0119 na to samo pole.
+    Na jednym polu mo\u017Ce sta\u0107 tylko jeden samoch\xF3d nie mo\u017Cna przeje\u017Cd\u017Ca\u0107
+    przez pole na kt\xF3rym stoi inny samoch\xF3d. Nie mo\u017Cna te\u017C przeskakiwa\u0107
+    przez takie pole.\n\nPr\u0119dko\u015B\u0107 samochodu \u2013 Liczba p\xF3l,
+    kt\xF3re samoch\xF3d pokonuje w jednym ruchu, jest zwi\u0105zana z jego pr\u0119dko\u015Bci\u0105
+    ka\u017Cde 40 km/h to jedno pole. Przyk\u0142ad: gra\u0107 chce przesun\u0105\u0107
+    samoch\xF3d o 5 p\xF3l. Ustawia pr\u0119dko\u015B\u0107 200 km/h ruch z pr\u0119dko\u015Bci\u0105
+    320 km/h oznacza przesuni\u0119cie samochodu o 8 p\xF3l. Przed ka\u017Cdym ruchem
+    gracz ustala z jak\u0105 pr\u0119dko\u015Bci\u0105 b\u0119dzie porusza\u0142
+    si\u0119 jego samoch\xF3d mo\u017Ce to by\u0107 pr\u0119dko\u015B\u0107 taka
+    sama jak w poprzednim ruchu, wi\u0119ksza albo mniejsza. Zale\u017Cy to wy\u0142\u0105cznie
+    od decyzji gracza, a jedynym ograniczeniem jest liczba posiadanych opon.\n\nPrzyspieszanie
+    i Hamowanie \u2013 Je\u017Celi samoch\xF3d porusza si\u0119 z tak\u0105 sam\u0105
+    pr\u0119dko\u015Bci\u0105, jak w poprzednim ruchu, przyspiesza o 40, 80 lub 120
+    km/h albo hamuje o 40 km/h to nie zu\u017Cywa opon. Je\u017Celi gracz chce bardziej
+    przyspieszy\u0107 albo zwolni\u0107, to musi odda\u0107 odpowiedni\u0105 liczb\u0119
+    opon, wed\u0142ug tabelek umieszczonych obok planszy.\n\nPr\u0119dko\u015B\u0107
+    na Zakr\u0119tach \u2013 Samochody mog\u0105 porusza\u0107 si\u0119 po torze
+    z dowoln\u0105 pr\u0119dko\u015Bci\u0105. Na polach na \u015Brodku ka\u017Cdego
+    zakr\u0119tu podana zosta\u0142a pr\u0119dko\u015B\u0107 bezpieczna, obowi\u0105zuj\u0105ca
+    tylko na tym polu. Samoch\xF3d mo\u017Ce przejecha\u0107 przez takie pole z dowoln\u0105
+    pr\u0119dko\u015Bci\u0105 je\u017Celi jest to pr\u0119dko\u015B\u0107 wi\u0119ksza
+    od pr\u0119dko\u015Bci bezpiecznej gracz rzuca kostk\u0105 za ka\u017Cde 40 km/h
+    przekroczenia pr\u0119dko\u015Bci bezpiecznej wykonuje si\u0119 jeden rzut kostk\u0105.
+    Liczby oczek, wyrzucone na kostce, oznaczaj\u0105: 1 \u2013 zu\u017Cycie 1 opony
+    2 \u2013 zu\u017Cycie 2 opon 3 \u2013 zu\u017Cycie 3 opon 4,5 \u2013 bez konsekwencji
+    6 \u2013 wypadni\u0119cie z toru. Je\u017Celi gracz nie ma ju\u017C opon, \u017Ceby
+    zap\u0142aci\u0107 kar\u0119 za wyrzucenie 1, 2 lub 3 oczek - wypada z toru.\n\nWypadni\u0119cie
+    z toru \u2013 Po wypadni\u0119ciu z toru samoch\xF3d zostaje na miejscu na kt\xF3rym
+    wypad\u0142 z toru. Pr\u0119dko\u015B\u0107 ustawia si\u0119 na zero, a gracz
+    musi odda\u0107 tyle opon, ile potrzeba to zahamowania od pr\u0119dko\u015Bci,
+    przy kt\xF3rej samoch\xF3d wypad\u0142 z toru, do zera.\n\nZako\u0144czenie gry
+    \u2013 Aby uko\u0144czy\u0107 wy\u015Bcig trzeba wjecha\u0107 na jedno z p\xF3l
+    mety, zamalowanych na czarno bia\u0142\u0105 kratk\u0119, lub przejecha\u0107
+    przez takie pole. Gra\u0107 w kt\xF3rego samoch\xF3d jako pierwszy wjedzie na
+    met\u0119 po odpowiedniej liczbie okr\u0105\u017Ce\u0144, zostaje zwyci\u0119zc\u0105.\n"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 28
+  m_fontSizeBase: 28
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1934614426
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934614423}
   m_CullTransparentMesh: 1
 --- !u!1 &1946927939
 GameObject:
