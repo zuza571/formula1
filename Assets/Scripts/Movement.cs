@@ -87,6 +87,7 @@ public class Movement : MonoBehaviour
 
         movementPoints = moves[currentSpeed];
         PanelUIMainGameScript.CurrentTires = tires;
+        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
         
         // todo: który tor możliwy - podświetlane pola
         while (movementPoints > 0)
@@ -120,7 +121,8 @@ public class Movement : MonoBehaviour
 
                 if (transformPosition != gameObject.transform.position)
                 {
-                    movementPoints--; 
+                    movementPoints--;
+                    PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 }
             }
             // right track
@@ -532,6 +534,7 @@ public class Movement : MonoBehaviour
             }
 
             GameMaster.UpdateLaps(transformPosition);
+            PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
 
             while (NextField(transformPosition)) { yield return null; }
             
@@ -641,6 +644,7 @@ public class Movement : MonoBehaviour
                             tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                 }
             }
