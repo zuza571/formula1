@@ -74,7 +74,8 @@ public class Movement : MonoBehaviour
         tires = playerParams[1];
 
         movementPoints = moves[currentSpeed];
-        PanelUIMainMenuScript.CurrentTires = tires;
+        PanelUIMainGameScript.CurrentTires = tires;
+        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
 
         // todo: który tor możliwy - podświetlane pola
         // todo: wypadanie poza mapę
@@ -110,7 +111,8 @@ public class Movement : MonoBehaviour
 
                 if (transformPosition != gameObject.transform.position)
                 {
-                    movementPoints--; 
+                    movementPoints--;
+                    PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 }
             }
             // right track
@@ -499,7 +501,7 @@ public class Movement : MonoBehaviour
                 || (transformPosition.y > -24.9 && transformPosition.y < -13.1 && transformPosition.x > -19.4 && transformPosition.x < -15.6)
                 || (transformPosition.y > -16.4 && transformPosition.y < -13.4 && transformPosition.x > -30.4 && transformPosition.x < -15.6)))
             {
-                Debug.Log("chujowo jedziesz");
+                Debug.Log("zle jedziesz");
                 transformPosition = transform.position;
                 movementPoints++;
             }
@@ -516,6 +518,8 @@ public class Movement : MonoBehaviour
                 transformPosition = transform.position;
                 movementPoints++;
             }
+            
+            PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
 
             while (NextField(transformPosition)) { yield return null; }
             
@@ -576,7 +580,7 @@ public class Movement : MonoBehaviour
                             rollCount = 0;
                             tires = 0;
                         }
-                        PanelUIMainMenuScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentTires = tires;
                         break;
                     case 2:
                         tires -= 2;
@@ -590,7 +594,7 @@ public class Movement : MonoBehaviour
                             rollCount = 0;
                             tires = 0;
                         }
-                        PanelUIMainMenuScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentTires = tires;
                         break;
                     case 3:
                         tires -= 3;
@@ -604,7 +608,7 @@ public class Movement : MonoBehaviour
                             rollCount = 0;
                             tires = 0;
                         }
-                        PanelUIMainMenuScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentTires = tires;
                         break;
                     case 4:
                         break;
@@ -616,13 +620,14 @@ public class Movement : MonoBehaviour
                         tires = playerParams[1];
                         // reset movement points to 0
                         movementPoints = 0;
+                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         // stop rolling the dice
                         rollCount = 0;
                         if (tires < 0)
                         {
                             tires = 0;
                         }
-                        PanelUIMainMenuScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentTires = tires;
                         break;
                 }
             }

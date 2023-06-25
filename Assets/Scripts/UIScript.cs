@@ -77,39 +77,39 @@ public class UIScript : MonoBehaviour, IPointerClickHandler
         {
             case "Button0":
                 chosenSpeed = speeds[speed0];
-                PanelUIMainMenuScript.CurrentSpeed = 0;
+                PanelUIMainGameScript.CurrentSpeed = 0;
                 break;
             case "Button40":
                 chosenSpeed = speeds[speed40];
-                PanelUIMainMenuScript.CurrentSpeed = 40;
+                PanelUIMainGameScript.CurrentSpeed = 40;
                 break;
             case "Button80":
                 chosenSpeed = speeds[speed80];
-                PanelUIMainMenuScript.CurrentSpeed = 80;
+                PanelUIMainGameScript.CurrentSpeed = 80;
                 break;
             case "Button120":
                 chosenSpeed = speeds[speed120];
-                PanelUIMainMenuScript.CurrentSpeed = 120;
+                PanelUIMainGameScript.CurrentSpeed = 120;
                 break; 
             case "Button160":
                 chosenSpeed = speeds[speed160];
-                PanelUIMainMenuScript.CurrentSpeed = 160;
+                PanelUIMainGameScript.CurrentSpeed = 160;
                 break; 
             case "Button200":
                 chosenSpeed = speeds[speed200];
-                PanelUIMainMenuScript.CurrentSpeed = 200;
+                PanelUIMainGameScript.CurrentSpeed = 200;
                 break; 
             case "Button240":
                 chosenSpeed = speeds[speed240];
-                PanelUIMainMenuScript.CurrentSpeed = 240;
+                PanelUIMainGameScript.CurrentSpeed = 240;
                 break; 
             case "Button280":
                 chosenSpeed = speeds[speed280];
-                PanelUIMainMenuScript.CurrentSpeed = 280;
+                PanelUIMainGameScript.CurrentSpeed = 280;
                 break; 
             case "Button320":
                 chosenSpeed = speeds[speed320];
-                PanelUIMainMenuScript.CurrentSpeed = 320;
+                PanelUIMainGameScript.CurrentSpeed = 320;
                 break;
             default:
                 break;
