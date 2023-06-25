@@ -578,48 +578,53 @@ public class Movement : MonoBehaviour
             }
         }
         // other turns
-        else
+        // else
+        // {
+        //     eachPlayerHasMoved = -eachPlayerHasMoved;
+        //     bool allPlayersMoved = true;
+        //     foreach (GameObject player in GameMaster.players)
+        //     {
+        //         player.GetComponent<Movement>().playerMoved = eachPlayerHasMoved;
+        //         int moved = player.GetComponent<Movement>().playerMoved;
+        //         if (moved != eachPlayerHasMoved)
+        //         {
+        //             allPlayersMoved = false;
+        //             break;
+        //         }
+        //     }
+        //     
+        //     if (allPlayersMoved)
+        //     {
+        //         eachPlayerHasMoved = -eachPlayerHasMoved;
+        //         playerMoved = eachPlayerHasMoved;
+        //
+        //         Debug.Log("KONIEC TURY");
+        //         // todo: kto zaczyna
+        //         //currentPlayer = CheckPlayerPositions();
+        //         
+        //         // int closestPlayerIndex = playerIndices[0];
+        //         // playerIndices.RemoveAt(0);
+        //         // playerIndices.Insert(0, closestPlayerIndex);
+        //     }
+        //     else
+        //     {
+        //         // currentPlayer = playerIndices[currentPlayer - 1];
+        //         // currentPlayer++;
+        //         // if (currentPlayer - 1 >= playerIndices.Count)
+        //         // {
+        //         //     currentPlayer = 1;
+        //         // }
+        //         currentPlayer++;
+        //         if (currentPlayer > GameParams.players)
+        //         {
+        //             currentPlayer = 1;
+        //         }
+        //     }
+        // }
+        currentPlayer++;
+        if (currentPlayer > GameParams.players)
         {
-            eachPlayerHasMoved = -eachPlayerHasMoved;
-            bool allPlayersMoved = true;
-            foreach (GameObject player in GameMaster.players)
-            {
-                player.GetComponent<Movement>().playerMoved = eachPlayerHasMoved;
-                int moved = player.GetComponent<Movement>().playerMoved;
-                if (moved != eachPlayerHasMoved)
-                {
-                    allPlayersMoved = false;
-                    break;
-                }
-            }
-            
-            if (allPlayersMoved)
-            {
-                eachPlayerHasMoved = -eachPlayerHasMoved;
-                playerMoved = eachPlayerHasMoved;
-
-                Debug.Log("KONIEC TURY");
-                // todo: kto zaczyna
-                //currentPlayer = CheckPlayerPositions();
-                
-                // int closestPlayerIndex = playerIndices[0];
-                // playerIndices.RemoveAt(0);
-                // playerIndices.Insert(0, closestPlayerIndex);
-            }
-            else
-            {
-                // currentPlayer = playerIndices[currentPlayer - 1];
-                // currentPlayer++;
-                // if (currentPlayer - 1 >= playerIndices.Count)
-                // {
-                //     currentPlayer = 1;
-                // }
-                currentPlayer++;
-                if (currentPlayer > GameParams.players)
-                {
-                    currentPlayer = 1;
-                }
-            }
+            currentPlayer = 1;
         }
 
         isMoving = false;
