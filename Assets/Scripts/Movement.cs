@@ -142,6 +142,7 @@ public class Movement : MonoBehaviour
                 if (transformPosition != gameObject.transform.position)
                 {
                     movementPoints--; 
+                    PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 }
             }
             // current track
@@ -167,6 +168,7 @@ public class Movement : MonoBehaviour
                 if (transformPosition != gameObject.transform.position)
                 {
                     movementPoints--; 
+                    PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 }
             }
             
@@ -581,6 +583,7 @@ public class Movement : MonoBehaviour
                             tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 2:
                         tires -= 2;
@@ -595,6 +598,7 @@ public class Movement : MonoBehaviour
                             tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 3:
                         tires -= 3;
@@ -609,6 +613,7 @@ public class Movement : MonoBehaviour
                             tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
+                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 4:
                         break;
@@ -635,11 +640,6 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds(2f);
 
             rollCount--;
-
-            Debug.Log("roll count " + rollCount);
-            Debug.Log("tires " + tires);
-            Debug.Log("movement " + movementPoints);
-            Debug.Log("--------------------------");
         }
         
         // enable movement after all dice rolls
