@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
@@ -22,10 +23,10 @@ public class Movement : MonoBehaviour
     private int chosenSpeed;
     private int track;
 
+    private List<int> playerIndices;
     private int currentPlayer;
-    private bool eachPlayerHasMoved;
-    private bool skipCurrentPlayer;
-    private bool fallOffTheTrack;
+    private int eachPlayerHasMoved = 0;
+    public int playerMoved = 0;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -47,6 +48,11 @@ public class Movement : MonoBehaviour
         tires = GameParams.tires;
         uiScript = FindObjectOfType<UIScript>();
         currentPlayer = GameMaster.currentPlayer;
+        playerIndices = new List<int>();
+        for (int i = 0; i < GameMaster.players.Count; i++)
+        {
+            playerIndices.Add(i);
+        }
     }
     
     private void Update()
@@ -540,34 +546,74 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        // 1st turn
         foreach (GameObject player in GameMaster.players)
         {
             int playerLapCount = player.GetComponent<Movement>().lap;
-            if (playerLapCount != -1)
+            if (playerLapCount != -1) 
             {
-                eachPlayerHasMoved = true;
+                player.GetComponent<Movement>().playerMoved = 1;
+                eachPlayerHasMoved = 1;
             }
             else
             { 
-                eachPlayerHasMoved = false;
+                player.GetComponent<Movement>().playerMoved = 0;
+                eachPlayerHasMoved = 0;
                 break;
             }
         }
 
-        if (!eachPlayerHasMoved)
+        if (eachPlayerHasMoved == 0)
         {
+            currentPlayer = playerIndices[currentPlayer - 1];
             currentPlayer++;
-            if (currentPlayer > GameParams.players)
+            if (currentPlayer - 1 >= playerIndices.Count)
             {
                 currentPlayer = 1;
             }
+            // currentPlayer++;
+            // if (currentPlayer > GameParams.players)
+            // {
+            //     currentPlayer = 1;
+            // }
         }
+        // other turns
         else
         {
-            if (!fallOffTheTrack)
+            eachPlayerHasMoved = -eachPlayerHasMoved;
+            bool allPlayersMoved = true;
+            foreach (GameObject player in GameMaster.players)
             {
-                skipCurrentPlayer = false;
+                player.GetComponent<Movement>().playerMoved = eachPlayerHasMoved;
+                int moved = player.GetComponent<Movement>().playerMoved;
+                if (moved != eachPlayerHasMoved)
+                {
+                    allPlayersMoved = false;
+                    break;
+                }
+            }
+            
+            if (allPlayersMoved)
+            {
+                eachPlayerHasMoved = -eachPlayerHasMoved;
+                playerMoved = eachPlayerHasMoved;
+
+                Debug.Log("KONIEC TURY");
+                // todo: kto zaczyna
                 currentPlayer = CheckPlayerPositions();
+                
+                int closestPlayerIndex = playerIndices[0];
+                playerIndices.RemoveAt(0);
+                playerIndices.Insert(0, closestPlayerIndex);
+            }
+            else
+            {
+                currentPlayer = playerIndices[currentPlayer - 1];
+                currentPlayer++;
+                if (currentPlayer - 1 >= playerIndices.Count)
+                {
+                    currentPlayer = 1;
+                }
             }
         }
 
@@ -613,9 +659,6 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -631,9 +674,6 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -649,9 +689,6 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -672,9 +709,6 @@ public class Movement : MonoBehaviour
                         {
                             tires = 0;
                         }
-                        skipCurrentPlayer = true;
-                        currentPlayer = CheckPlayerPositions();
-                        fallOffTheTrack = true;
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
@@ -695,46 +729,22 @@ public class Movement : MonoBehaviour
         int highestLapCount = -1;
         List<GameObject> playersWithHighestLapCount = new List<GameObject>();
 
-        if (!skipCurrentPlayer)
+       
+        foreach (GameObject player in GameMaster.players)
         {
-            foreach (GameObject player in GameMaster.players)
-            {
-                int playerLapCount = player.GetComponent<Movement>().lap;
+            int playerLapCount = player.GetComponent<Movement>().lap;
 
-                if (playerLapCount > highestLapCount)
-                {
-                    highestLapCount = playerLapCount;
-                    playersWithHighestLapCount.Clear();
-                    playersWithHighestLapCount.Add(player);
-                }
-                else if (playerLapCount == highestLapCount)
-                {
-                    playersWithHighestLapCount.Add(player);
-                }
+            if (playerLapCount > highestLapCount)
+            {
+                highestLapCount = playerLapCount;
+                playersWithHighestLapCount.Clear();
+                playersWithHighestLapCount.Add(player);
+            }
+            else if (playerLapCount == highestLapCount)
+            {
+                playersWithHighestLapCount.Add(player);
             }
         }
-        else
-        {
-            foreach (GameObject player in GameMaster.players)
-            {
-                if (int.Parse(player.name.Substring(player.name.Length - 1)) != currentPlayer)
-                {
-                    int playerLapCount = player.GetComponent<Movement>().lap;
-
-                    if (playerLapCount > highestLapCount)
-                    {
-                        highestLapCount = playerLapCount;
-                        playersWithHighestLapCount.Clear();
-                        playersWithHighestLapCount.Add(player);
-                    }
-                    else if (playerLapCount == highestLapCount)
-                    {
-                        playersWithHighestLapCount.Add(player);
-                    }
-                }
-            }
-        }
-        
 
         int highestAreaID = -1;
         List<GameObject> playersInHighestArea = new List<GameObject>();
