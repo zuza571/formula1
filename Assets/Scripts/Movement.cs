@@ -577,6 +577,14 @@ public class Movement : MonoBehaviour
                 currentPlayer = 1;
             }
         }
+        else
+        {
+            currentPlayer++;
+            if (currentPlayer > GameParams.players)
+            {
+                currentPlayer = 1;
+            }
+        }
         // other turns
         // else
         // {
@@ -621,11 +629,7 @@ public class Movement : MonoBehaviour
         //         }
         //     }
         // }
-        currentPlayer++;
-        if (currentPlayer > GameParams.players)
-        {
-            currentPlayer = 1;
-        }
+        
 
         isMoving = false;
         GameMaster.MovePlayer(currentPlayer);
