@@ -23890,7 +23890,12 @@ MonoBehaviour:
     Czasami przy zmianie pasa na bardziej wewn\u0119trzny, z 2 kolejnych p\xF3l wje\u017Cd\u017Ca
     si\u0119 na to samo pole. Na jednym polu mo\u017Ce sta\u0107 tylko jeden samoch\xF3d
     nie mo\u017Cna przeje\u017Cd\u017Ca\u0107 przez pole na kt\xF3rym stoi inny samoch\xF3d.
-    Nie mo\u017Cna te\u017C przeskakiwa\u0107 przez takie pole.\n\nPr\u0119dko\u015B\u0107
+    Nie mo\u017Cna te\u017C przeskakiwa\u0107 przez takie pole. Je\u015Bli gracz
+    nie mo\u017Ce si\u0119 migdzie ruszy\u0107 traci punkty ruchu, ale nie traci
+    pr\u0119dko\u015Bci. O kolejno\u015Bci kolejki decyduje odleg\u0142o\u015B\u0107
+    od mety - porusza si\u0119 gracz b\u0119d\u0105cy najbli\u017Cej mety. Je\u015Bli
+    jest 2 graczy na r\xF3wni - wybierany jest losowy gracz  z tych 2. Gdy prowadz\u0105cy
+    gracz wypadnie z toru, wybierany jest kolejny najbli\u017Cszy mety gracz.\n\nPr\u0119dko\u015B\u0107
     samochodu \u2013 Liczba p\xF3l, kt\xF3re samoch\xF3d pokonuje w jednym ruchu,
     jest zwi\u0105zana z jego pr\u0119dko\u015Bci\u0105 -  ka\u017Cde 40 km/h to
     jedno pole. Przyk\u0142ad: gracz chce przesun\u0105\u0107 samoch\xF3d o 5 p\xF3l

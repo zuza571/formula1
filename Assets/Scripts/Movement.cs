@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class Movement : MonoBehaviour
     private int track;
 
     private int currentPlayer;
+    private bool eachPlayerHasMoved;
+    private bool skipCurrentPlayer;
+    private bool fallOffTheTrack;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -38,9 +42,8 @@ public class Movement : MonoBehaviour
     
     private void Start()
     {
-        lap = 0;
-        // players 3-6 are before starting fields
-        if (gameObject.name != "Player1" && gameObject.name != "Player2") { lap = -1;}
+        // then changed to zero, it is to get know when all gamers made 1st move
+        lap = -1;
         tires = GameParams.tires;
         uiScript = FindObjectOfType<UIScript>();
         currentPlayer = GameMaster.currentPlayer;
@@ -74,7 +77,6 @@ public class Movement : MonoBehaviour
         }
     }
     
-
     IEnumerator Move() 
     {
         if (isMoving) { yield break; }
@@ -89,7 +91,6 @@ public class Movement : MonoBehaviour
         PanelUIMainGameScript.CurrentTires = tires;
         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
         
-        // todo: który tor możliwy - podświetlane pola
         while (movementPoints > 0)
         {
             transformPosition = gameObject.transform.position; 
@@ -511,7 +512,7 @@ public class Movement : MonoBehaviour
                 || (transformPosition.y > -24.9 && transformPosition.y < -13.1 && transformPosition.x > -19.4 && transformPosition.x < -15.6)
                 || (transformPosition.y > -16.4 && transformPosition.y < -13.4 && transformPosition.x > -30.4 && transformPosition.x < -15.6)))
             {
-                Debug.Log("chujowo jedziesz");
+                Debug.Log("Wyjeżdzasz za mapę!");
                 transformPosition = transform.position;
                 movementPoints++;
             }
@@ -525,30 +526,48 @@ public class Movement : MonoBehaviour
                 if (Mathf.Abs(distance) < 0.05f)
                 {
                     Debug.Log("Inny gracz jest tutaj");
-                    Debug.Log(otherPlayerPositions);
-                    Debug.Log(transform.position);
                     transformPosition = transform.position;
                     movementPoints++;
                     break;
                 }
             }
 
-            GameMaster.UpdateLaps(transformPosition);
             PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
 
             while (NextField(transformPosition)) { yield return null; }
+            GameMaster.UpdateLaps(transformPosition);
             
             yield return new WaitForSeconds(0.1f);
         }
-        
 
-        // todo: zaleznosc od laps + wszyscy musza ruszyc!!!
-        CheckPlayerPositions();
-
-        currentPlayer++;
-        if (currentPlayer > GameParams.players)
+        foreach (GameObject player in GameMaster.players)
         {
-            currentPlayer = 1;
+            int playerLapCount = player.GetComponent<Movement>().lap;
+            if (playerLapCount != -1)
+            {
+                eachPlayerHasMoved = true;
+            }
+            else
+            { 
+                eachPlayerHasMoved = false;
+                break;
+            }
+        }
+
+        if (!eachPlayerHasMoved)
+        {
+            currentPlayer++;
+            if (currentPlayer > GameParams.players)
+            {
+                currentPlayer = 1;
+            }
+        }
+        else
+        {
+            if (!fallOffTheTrack)
+            {
+                currentPlayer = CheckPlayerPositions(skipCurrentPlayer);
+            }
         }
 
         isMoving = false;
@@ -593,6 +612,8 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
+                            currentPlayer = CheckPlayerPositions(skipCurrentPlayer);
+                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -608,6 +629,8 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
+                            currentPlayer = CheckPlayerPositions(skipCurrentPlayer);
+                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -623,6 +646,8 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
+                            currentPlayer = CheckPlayerPositions(skipCurrentPlayer);
+                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -643,6 +668,8 @@ public class Movement : MonoBehaviour
                         {
                             tires = 0;
                         }
+                        currentPlayer = CheckPlayerPositions(skipCurrentPlayer);
+                        fallOffTheTrack = true;
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
@@ -657,31 +684,56 @@ public class Movement : MonoBehaviour
         // enable movement after all dice rolls
         gameObject.transform.Rotate(0,0,-0.01f);
     }
-    
-    
-    void CheckPlayerPositions()
+
+    int CheckPlayerPositions(bool skipCurrentPlayer)
     {
         int highestLapCount = -1;
         List<GameObject> playersWithHighestLapCount = new List<GameObject>();
 
-        foreach (GameObject player in GameMaster.players)
+        if (!this.skipCurrentPlayer)
         {
-            int playerLapCount = player.GetComponent<Movement>().lap;
+            foreach (GameObject player in GameMaster.players)
+            {
+                int playerLapCount = player.GetComponent<Movement>().lap;
 
-            if (playerLapCount > highestLapCount)
-            {
-                highestLapCount = playerLapCount;
-                playersWithHighestLapCount.Clear();
-                playersWithHighestLapCount.Add(player);
-            }
-            else if (playerLapCount == highestLapCount)
-            {
-                playersWithHighestLapCount.Add(player);
+                if (playerLapCount > highestLapCount)
+                {
+                    highestLapCount = playerLapCount;
+                    playersWithHighestLapCount.Clear();
+                    playersWithHighestLapCount.Add(player);
+                }
+                else if (playerLapCount == highestLapCount)
+                {
+                    playersWithHighestLapCount.Add(player);
+                }
             }
         }
+        else
+        {
+            foreach (GameObject player in GameMaster.players)
+            {
+                if (int.Parse(player.name.Substring(player.name.Length - 1)) != currentPlayer)
+                {
+                    int playerLapCount = player.GetComponent<Movement>().lap;
+
+                    if (playerLapCount > highestLapCount)
+                    {
+                        highestLapCount = playerLapCount;
+                        playersWithHighestLapCount.Clear();
+                        playersWithHighestLapCount.Add(player);
+                    }
+                    else if (playerLapCount == highestLapCount)
+                    {
+                        playersWithHighestLapCount.Add(player);
+                    }
+                }
+            }
+        }
+        
 
         int highestAreaID = -1;
         List<GameObject> playersInHighestArea = new List<GameObject>();
+        List<GameObject> playersClosestToNextArea = new List<GameObject>();
         GameObject playerClosestToNextArea = null;
         float closestDistanceToNextArea = float.MaxValue;
 
@@ -707,19 +759,36 @@ public class Movement : MonoBehaviour
 
         // distance to next area
         Vector3 nextAreaCenter = GetAreaCenter(nextAreaIndex);
-
         foreach (GameObject player_ in playersInHighestArea)
         {
+            // todo: zmienic liczenie dystansu do nastepnego obszaru ?
             Vector3 playerPosition_ = player_.transform.position;
             float distanceToNextArea = Vector3.Distance(playerPosition_, nextAreaCenter);
 
             if (distanceToNextArea < closestDistanceToNextArea)
             {
                 closestDistanceToNextArea = distanceToNextArea;
-                playerClosestToNextArea = player_;
+                playersClosestToNextArea.Clear();
+                playersClosestToNextArea.Add(player_);
+            }
+            else if (Mathf.Abs(distanceToNextArea - closestDistanceToNextArea) < 0.5f)
+            {
+                playersClosestToNextArea.Add(player_);
             }
         }
-        
+
+        int playerCount = playersClosestToNextArea.Count;
+        Debug.Log(playerCount);
+        if (playerCount > 1)
+        {
+            int randomIndex = Random.Range(0, playerCount);
+            playerClosestToNextArea = playersClosestToNextArea[randomIndex];
+        }
+        else if (playerCount == 1)
+        {
+            playerClosestToNextArea = playersClosestToNextArea[0];
+        }
+
         Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
         foreach (GameObject player in playersWithHighestLapCount)
         {
@@ -732,14 +801,16 @@ public class Movement : MonoBehaviour
             Debug.Log("Gracz: " + player.name);
         }
 
-        // todo: losowanie gdy 2 na tej samej pozycji x
         Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
+
+        int playerToMove = int.Parse(playerClosestToNextArea.name.Substring(playerClosestToNextArea.name.Length - 1));
+
+        return playerToMove;
     }
     
     private int AssignArea(Vector3 position)
     {
         int area = 0;
-        // todo: gracze 3-6
         if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) && 
             (((Math.Abs((GameMaster.triggerStart1.transform.position.y) - position.y) > 0.05 
                && Math.Abs(GameMaster.triggerStart1.transform.position.x - position.x) < 0.05))
@@ -747,11 +818,6 @@ public class Movement : MonoBehaviour
                   && Math.Abs(GameMaster.trigger2_final.transform.position.x - position.x) < 0.05))
              || ((Math.Abs((GameMaster.triggerStart2.transform.position.y) - position.y) > 0.05 
                   && Math.Abs(GameMaster.triggerStart2.transform.position.x - position.x) < 0.05))))
-        {
-            area = 1;
-        }
-        else if ((position.y > -13.4f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) 
-                 && GetComponent<Movement>().lap == -1)
         {
             area = 1;
         }
@@ -784,7 +850,6 @@ public class Movement : MonoBehaviour
         }
         else if ((position.y > -15.9f && position.y < -6.6f && position.x > -30.4f && position.x < -26.6f) 
                  && GetComponent<Movement>().lap > 0)
-            // todo: lap > 0 a ktos tak zostal na jakiejs rundzie na polu startowym
         {
             area = 9;
         }

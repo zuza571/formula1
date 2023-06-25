@@ -155,11 +155,11 @@ public class GameMaster : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].GetComponent<Movement>().lap == -1 && 
-                (((Math.Abs((triggerStart1.transform.position.y + 2) - players[i].transform.position.y) < 0.05 
+                (((Math.Abs((triggerStart1.transform.position.y) - players[i].transform.position.y) > 0.05 
                    && Math.Abs(triggerStart1.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((trigger2_final.transform.position.y + 2) - players[i].transform.position.y) < 0.05 
+                 || ((Math.Abs((trigger2_final.transform.position.y) - players[i].transform.position.y) > 0.05 
                       && Math.Abs(trigger2_final.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((triggerStart2.transform.position.y + 2) - players[i].transform.position.y) < 0.05 
+                 || ((Math.Abs((triggerStart2.transform.position.y) - players[i].transform.position.y) > 0.05 
                       && Math.Abs(triggerStart2.transform.position.x - players[i].transform.position.x) < 0.05)))
                 && players[i].GetComponent<Movement>().moveAllowed) {
                 players[i].GetComponent<Movement>().lap = 0;
