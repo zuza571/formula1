@@ -565,17 +565,17 @@ public class Movement : MonoBehaviour
 
         if (eachPlayerHasMoved == 0)
         {
-            currentPlayer = playerIndices[currentPlayer - 1];
-            currentPlayer++;
-            if (currentPlayer - 1 >= playerIndices.Count)
-            {
-                currentPlayer = 1;
-            }
+            // currentPlayer = playerIndices[currentPlayer - 1];
             // currentPlayer++;
-            // if (currentPlayer > GameParams.players)
+            // if (currentPlayer - 1 >= playerIndices.Count)
             // {
             //     currentPlayer = 1;
             // }
+            currentPlayer++;
+            if (currentPlayer > GameParams.players)
+            {
+                currentPlayer = 1;
+            }
         }
         // other turns
         else
@@ -600,17 +600,22 @@ public class Movement : MonoBehaviour
 
                 Debug.Log("KONIEC TURY");
                 // todo: kto zaczyna
-                currentPlayer = CheckPlayerPositions();
+                //currentPlayer = CheckPlayerPositions();
                 
-                int closestPlayerIndex = playerIndices[0];
-                playerIndices.RemoveAt(0);
-                playerIndices.Insert(0, closestPlayerIndex);
+                // int closestPlayerIndex = playerIndices[0];
+                // playerIndices.RemoveAt(0);
+                // playerIndices.Insert(0, closestPlayerIndex);
             }
             else
             {
-                currentPlayer = playerIndices[currentPlayer - 1];
+                // currentPlayer = playerIndices[currentPlayer - 1];
+                // currentPlayer++;
+                // if (currentPlayer - 1 >= playerIndices.Count)
+                // {
+                //     currentPlayer = 1;
+                // }
                 currentPlayer++;
-                if (currentPlayer - 1 >= playerIndices.Count)
+                if (currentPlayer > GameParams.players)
                 {
                     currentPlayer = 1;
                 }
