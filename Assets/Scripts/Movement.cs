@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,18 +10,18 @@ public class Movement : MonoBehaviour
     public bool moveAllowed; 
     public int movementPoints;
     public int lap;
-    
 
     private Vector3 transformPosition;
     private Coroutine moveCoroutine;
 
     private bool isMoving;
-    private int whosTurn;
     private bool handledDiceRoll;
 
     private static UIScript uiScript;
     private int chosenSpeed;
     private int track;
+
+    private int currentPlayer;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -41,15 +39,29 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         lap = 0;
+        // players 3-6 are before starting fields
+        if (gameObject.name != "Player1" && gameObject.name != "Player2") { lap = -1;}
         tires = GameParams.tires;
         uiScript = FindObjectOfType<UIScript>();
+        currentPlayer = GameMaster.currentPlayer;
     }
     
     private void Update()
     {
-        if (gameObject.name == "Player1") { whosTurn = 1; }
-        else { whosTurn = -1; }
-
+        if (gameObject.name == "Player1") {
+            currentPlayer = 1;
+        } else if (gameObject.name == "Player2") {
+            currentPlayer = 2;
+        } else if (gameObject.name == "Player3") {
+            currentPlayer = 3;
+        } else if (gameObject.name == "Player4") {
+            currentPlayer = 4;
+        } else if (gameObject.name == "Player5") {
+            currentPlayer = 5;
+        } else if (gameObject.name == "Player6") {
+            currentPlayer = 6;
+        }
+        
         if (!isMoving) {
             if (moveAllowed && moveCoroutine == null)
             {
@@ -61,8 +73,8 @@ public class Movement : MonoBehaviour
             } 
         }
     }
+    
 
-    // TODO: nie można wjeżdzać w innego gracza
     IEnumerator Move() 
     {
         if (isMoving) { yield break; }
@@ -75,11 +87,8 @@ public class Movement : MonoBehaviour
 
         movementPoints = moves[currentSpeed];
         PanelUIMainGameScript.CurrentTires = tires;
-        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-
-        // todo: który tor możliwy - podświetlane pola
-        // todo: wypadanie poza mapę
         
+        // todo: który tor możliwy - podświetlane pola
         while (movementPoints > 0)
         {
             transformPosition = gameObject.transform.position; 
@@ -111,8 +120,7 @@ public class Movement : MonoBehaviour
 
                 if (transformPosition != gameObject.transform.position)
                 {
-                    movementPoints--;
-                    PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+                    movementPoints--; 
                 }
             }
             // right track
@@ -488,8 +496,6 @@ public class Movement : MonoBehaviour
                 transformPosition.x = -29.5f;
                 transform.Rotate(0,0,-90);
             }
-
-            GameMaster.UpdateLaps(transformPosition);
             
             // map edges
             if (!((transformPosition.y > -15.9 && transformPosition.y < 13.9 && transformPosition.x > -30.4 && transformPosition.x < -26.6) 
@@ -501,44 +507,48 @@ public class Movement : MonoBehaviour
                 || (transformPosition.y > -24.9 && transformPosition.y < -13.1 && transformPosition.x > -19.4 && transformPosition.x < -15.6)
                 || (transformPosition.y > -16.4 && transformPosition.y < -13.4 && transformPosition.x > -30.4 && transformPosition.x < -15.6)))
             {
-                Debug.Log("zle jedziesz");
+                Debug.Log("chujowo jedziesz");
                 transformPosition = transform.position;
                 movementPoints++;
             }
 
             // get other player's position
-            Vector3 otherPlayerPosition = GameMaster.OtherPlayerPosition(whosTurn);
-            float distance = Vector3.Distance(transformPosition, otherPlayerPosition);
-
-            if (Mathf.Abs(distance) < 0.05f)
+            List<Vector3> otherPlayerPositions = GameMaster.OtherPlayerPosition(currentPlayer);
+            foreach (Vector3 position in otherPlayerPositions)
             {
-                Debug.Log("inny gracz tu jest");
-                Debug.Log(GameMaster.OtherPlayerPosition(whosTurn));
-                Debug.Log(gameObject.transform.position);
-                transformPosition = transform.position;
-                movementPoints++;
+                float distance = Vector3.Distance(transformPosition, position);
+
+                if (Mathf.Abs(distance) < 0.05f)
+                {
+                    Debug.Log("Inny gracz jest tutaj");
+                    Debug.Log(otherPlayerPositions);
+                    Debug.Log(transform.position);
+                    transformPosition = transform.position;
+                    movementPoints++;
+                    break;
+                }
             }
-            
-            PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+
+            GameMaster.UpdateLaps(transformPosition);
 
             while (NextField(transformPosition)) { yield return null; }
             
             yield return new WaitForSeconds(0.1f);
         }
+        
 
-        whosTurn = -whosTurn;
+        // todo: zaleznosc od laps + wszyscy musza ruszyc!!!
+        CheckPlayerPositions();
+
+        currentPlayer++;
+        if (currentPlayer > GameParams.players)
+        {
+            currentPlayer = 1;
+        }
+
         isMoving = false;
-
-        if (whosTurn == 1)
-        {
-            GameMaster.MovePlayer(1);
-            GameMaster.CurrentUIGameMaster();
-        }
-        else if (whosTurn == -1)
-        {
-            GameMaster.MovePlayer(2);
-            GameMaster.CurrentUIGameMaster();
-        }
+        GameMaster.MovePlayer(currentPlayer);
+        GameMaster.CurrentUIGameMaster();
 
         moveCoroutine = null;
     }
@@ -547,10 +557,9 @@ public class Movement : MonoBehaviour
         return dest != (transform.position = Vector3.MoveTowards(transform.position, 
             dest, 4*Time.deltaTime)); 
     }
-
     
-    // todo: podczas rzutu kostką nie można się ruszać
     void RollTheDice(int rollCount) { StartCoroutine(RollDiceWithTimeout(rollCount)); }
+    
     private IEnumerator RollDiceWithTimeout(int rollCount)
     {
         // disable movement
@@ -620,7 +629,6 @@ public class Movement : MonoBehaviour
                         tires = playerParams[1];
                         // reset movement points to 0
                         movementPoints = 0;
-                        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         // stop rolling the dice
                         rollCount = 0;
                         if (tires < 0)
@@ -645,4 +653,179 @@ public class Movement : MonoBehaviour
         // enable movement after all dice rolls
         gameObject.transform.Rotate(0,0,-0.01f);
     }
+    
+    
+    void CheckPlayerPositions()
+    {
+        int highestLapCount = -1;
+        List<GameObject> playersWithHighestLapCount = new List<GameObject>();
+
+        foreach (GameObject player in GameMaster.players)
+        {
+            int playerLapCount = player.GetComponent<Movement>().lap;
+
+            if (playerLapCount > highestLapCount)
+            {
+                highestLapCount = playerLapCount;
+                playersWithHighestLapCount.Clear();
+                playersWithHighestLapCount.Add(player);
+            }
+            else if (playerLapCount == highestLapCount)
+            {
+                playersWithHighestLapCount.Add(player);
+            }
+        }
+
+        int highestAreaID = -1;
+        List<GameObject> playersInHighestArea = new List<GameObject>();
+        GameObject playerClosestToNextArea = null;
+        float closestDistanceToNextArea = float.MaxValue;
+
+        foreach (GameObject player in playersWithHighestLapCount)
+        {
+            Vector3 playerPosition = player.transform.position;
+            int playerArea = AssignArea(playerPosition);
+
+            if (playerArea > highestAreaID)
+            {
+                highestAreaID = playerArea;
+                playersInHighestArea.Clear();
+                playersInHighestArea.Add(player);
+            }
+            else if (playerArea == highestAreaID)
+            {
+                playersInHighestArea.Add(player);
+            }
+        }
+
+        int nextAreaID = highestAreaID + 1;
+        int nextAreaIndex = nextAreaID % 9;
+
+        // distance to next area
+        Vector3 nextAreaCenter = GetAreaCenter(nextAreaIndex);
+
+        foreach (GameObject player_ in playersInHighestArea)
+        {
+            Vector3 playerPosition_ = player_.transform.position;
+            float distanceToNextArea = Vector3.Distance(playerPosition_, nextAreaCenter);
+
+            if (distanceToNextArea < closestDistanceToNextArea)
+            {
+                closestDistanceToNextArea = distanceToNextArea;
+                playerClosestToNextArea = player_;
+            }
+        }
+        
+        Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
+        foreach (GameObject player in playersWithHighestLapCount)
+        {
+            Debug.Log("Gracz: " + player.name);
+        }
+
+        Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
+        foreach (GameObject player in playersInHighestArea)
+        {
+            Debug.Log("Gracz: " + player.name);
+        }
+
+        // todo: losowanie gdy 2 na tej samej pozycji x
+        Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
+    }
+    
+    private int AssignArea(Vector3 position)
+    {
+        int area = 0;
+        // todo: gracze 3-6
+        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) && 
+            (((Math.Abs((GameMaster.triggerStart1.transform.position.y) - position.y) > 0.05 
+               && Math.Abs(GameMaster.triggerStart1.transform.position.x - position.x) < 0.05))
+             || ((Math.Abs((GameMaster.trigger2_final.transform.position.y) - position.y) > 0.05 
+                  && Math.Abs(GameMaster.trigger2_final.transform.position.x - position.x) < 0.05))
+             || ((Math.Abs((GameMaster.triggerStart2.transform.position.y) - position.y) > 0.05 
+                  && Math.Abs(GameMaster.triggerStart2.transform.position.x - position.x) < 0.05))))
+        {
+            area = 1;
+        }
+        else if ((position.y > -13.4f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) 
+                 && GetComponent<Movement>().lap == -1)
+        {
+            area = 1;
+        }
+        else if (position.y > 10.6f && position.y < 14.4f && position.x > -30f && position.x < -14f)
+        {
+            area = 2;
+        }
+        else if (position.y > 4.1f && position.y < 13.9f && position.x > -17.4f && position.x < -13.6f)
+        {
+            area = 3;
+        } else if (position.y > 3.9f && position.y < 7.4f && position.x > -17.4f && position.x < -0.6f)
+        {
+            area = 4;
+        }
+        else if (position.y > -24.9f && position.y < 6.9f && position.x > -4.4f && position.x < -0.6f)
+        {
+            area = 5;
+        }
+        else if (position.y > -24.9f && position.y < -22.1f && position.x > -19.9f && position.x < -0.6f)
+        {
+            area = 6;
+        }
+        else if (position.y > -24.9f && position.y < -13.1f && position.x > -19.4f && position.x < -15.6f)
+        {
+            area = 7;
+        }
+        else if (position.y > -16.4f && position.y < -13.4f && position.x > -30.4f && position.x < -15.6f)
+        {
+            area = 8;
+        }
+        else if ((position.y > -15.9f && position.y < -6.6f && position.x > -30.4f && position.x < -26.6f) 
+                 && GetComponent<Movement>().lap > 0)
+            // todo: lap > 0 a ktos tak zostal na jakiejs rundzie na polu startowym
+        {
+            area = 9;
+        }
+
+        return area;
+    }
+    
+    Vector3 GetAreaCenter(int areaID)
+    {
+        Vector3 areaCenter = Vector3.zero;
+        switch (areaID)
+        {
+            case 1:
+                areaCenter = new Vector3(-28.5f, 3.65f, 2.7f);
+                break;
+            case 2:
+                areaCenter = new Vector3(-22f, 12.5f, 2.7f);
+                break;
+            case 3:
+                areaCenter = new Vector3(-15.5f, 8.95f, 2.7f);
+                break;
+            case 4:
+                areaCenter = new Vector3(-9f, 5.65f, 2.7f);
+                break;
+            case 5:
+                areaCenter = new Vector3(-2.5f, -9f, 2.7f);
+                break;
+            case 6:
+                areaCenter = new Vector3(-9f, -23.5f, 2.7f);
+                break;
+            case 7:
+                areaCenter = new Vector3(-22f, -19.5f, 2.7f);
+                break;
+            case 8:
+                areaCenter = new Vector3(-22f, -14.9f, 2.7f);
+                break;
+            case 9:
+                areaCenter = new Vector3(-28.5f, -11.25f, 2.7f);
+                break;
+            default:
+                Debug.LogError("Nieprawidłowy identyfikator obszaru: " + areaID);
+                break;
+        }
+
+        return areaCenter;
+    }
+
 }
