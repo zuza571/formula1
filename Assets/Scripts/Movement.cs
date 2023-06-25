@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
@@ -11,6 +12,7 @@ public class Movement : MonoBehaviour
     public bool moveAllowed; 
     public int movementPoints;
     public int lap;
+    public SkipTurnButtonScript button;
 
     private Vector3 transformPosition;
     private Coroutine moveCoroutine;
@@ -26,6 +28,7 @@ public class Movement : MonoBehaviour
     private bool eachPlayerHasMoved;
     private bool skipCurrentPlayer;
     private bool fallOffTheTrack;
+    private int movesInGame = 0;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -90,9 +93,32 @@ public class Movement : MonoBehaviour
         movementPoints = moves[currentSpeed];
         PanelUIMainGameScript.CurrentTires = tires;
         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+        movesInGame++;
         
+        button.gameObject.SetActive(true);
+
         while (movementPoints > 0)
         {
+            
+            if (button.ShouldResetPoints())
+            {
+                playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                currentSpeed = playerParams[0];
+                tires = playerParams[1];
+                // reset movement points to 0
+                movementPoints = 0;
+                if (tires < 0)
+                {
+                    tires = 0;
+                }
+                skipCurrentPlayer = true;
+                currentPlayer = CheckPlayerPositions();
+                fallOffTheTrack = true;
+                PanelUIMainGameScript.CurrentTires = tires;
+                PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+                break;
+            }
+            
             transformPosition = gameObject.transform.position; 
             float rotationZ = gameObject.transform.eulerAngles.z;
 
@@ -539,7 +565,9 @@ public class Movement : MonoBehaviour
             
             yield return new WaitForSeconds(0.1f);
         }
-
+        
+        button.gameObject.SetActive(false);
+        
         foreach (GameObject player in GameMaster.players)
         {
             int playerLapCount = player.GetComponent<Movement>().lap;
@@ -574,6 +602,7 @@ public class Movement : MonoBehaviour
         isMoving = false;
         GameMaster.MovePlayer(currentPlayer);
         GameMaster.CurrentUIGameMaster();
+        CheckPlayerPositions();
 
         moveCoroutine = null;
     }
@@ -692,12 +721,30 @@ public class Movement : MonoBehaviour
 
     int CheckPlayerPositions()
     {
+        List<GameObject> playersWithLessMoves = new List<GameObject>();
+        int playerMovesInGameMin =  GameMaster.players[0].GetComponent<Movement>().movesInGame;
+        foreach (GameObject player in GameMaster.players)
+        {
+            int playerMovesInGame = player.GetComponent<Movement>().movesInGame;
+            if (playerMovesInGame < playerMovesInGameMin)
+            {
+                playerMovesInGameMin = playerMovesInGame;
+            }
+        }
+        foreach (GameObject player in GameMaster.players)
+        {
+            if (player.GetComponent<Movement>().movesInGame == playerMovesInGameMin)
+            {
+                playersWithLessMoves.Add(player);
+            }
+        }
+
         int highestLapCount = -1;
         List<GameObject> playersWithHighestLapCount = new List<GameObject>();
 
         if (!skipCurrentPlayer)
         {
-            foreach (GameObject player in GameMaster.players)
+            foreach (GameObject player in playersWithLessMoves)
             {
                 int playerLapCount = player.GetComponent<Movement>().lap;
 
@@ -783,7 +830,7 @@ public class Movement : MonoBehaviour
         }
 
         int playerCount = playersClosestToNextArea.Count;
-        Debug.Log(playerCount);
+        // Debug.Log(playerCount);
         if (playerCount > 1)
         {
             int randomIndex = Random.Range(0, playerCount);
@@ -794,19 +841,19 @@ public class Movement : MonoBehaviour
             playerClosestToNextArea = playersClosestToNextArea[0];
         }
 
-        Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
+        //Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
         foreach (GameObject player in playersWithHighestLapCount)
         {
-            Debug.Log("Gracz: " + player.name);
+            //Debug.Log("Gracz: " + player.name);
         }
 
-        Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
+        //Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
         foreach (GameObject player in playersInHighestArea)
         {
-            Debug.Log("Gracz: " + player.name);
+            //Debug.Log("Gracz: " + player.name);
         }
 
-        Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
+        // Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
 
         int playerToMove = int.Parse(playerClosestToNextArea.name.Substring(playerClosestToNextArea.name.Length - 1));
 
