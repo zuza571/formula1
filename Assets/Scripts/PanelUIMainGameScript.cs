@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -10,12 +9,14 @@ public class PanelUIMainGameScript : MonoBehaviour
     public static int CurrentTires = GameParams.tires;
     public static int CurrentLap = 1;
     public static int CurrentMovementPoints = 0;
+    public static bool ActivateRollingTheDicePanel = true;
     
     public TextMeshProUGUI TextMeshProUGUICurrentPlayer;
     public TextMeshProUGUI TextMeshProUGUICurrentSpeed;
     public TextMeshProUGUI TextMeshProUGUICurrentTires;
     public TextMeshProUGUI TextMeshProUGUICurrentLap;
     public TextMeshProUGUI TextMeshProUGUICurrentMovementPoints;
+    public GameObject RollingTheDicePanel;
 
     private void Start()
     {
@@ -29,9 +30,9 @@ public class PanelUIMainGameScript : MonoBehaviour
         CurrentTiresTextUpdate();
         CurrentLapTextUpdate();
         CurrentMovementPointsUpdate();
+        RollingTheDice();
     }
 
-    // Update is called once per frame
     private void CurrentPlayerTextUpdate()
     {
         TextMeshProUGUICurrentPlayer.SetText(CurrentPlayer);
@@ -56,5 +57,10 @@ public class PanelUIMainGameScript : MonoBehaviour
     private void CurrentMovementPointsUpdate()
     {
         TextMeshProUGUICurrentMovementPoints.SetText(CurrentMovementPoints.ToString());
+    }
+
+    private void RollingTheDice()
+    {
+        RollingTheDicePanel.SetActive(ActivateRollingTheDicePanel);
     }
 }

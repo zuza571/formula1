@@ -125,6 +125,10 @@ public class GameMaster : MonoBehaviour
            Players[i].GetComponent<Movement>().moveAllowed = false;
         }
         
+        yield return new WaitForSeconds(1.5f);
+        PanelUIMainGameScript.ActivateRollingTheDicePanel = false;
+        yield return new WaitForSeconds(1f);
+
         RollTheDice(playersNumber);
         yield return new WaitUntil(() => StartingPlayer > 0);
         

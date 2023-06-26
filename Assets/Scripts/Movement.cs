@@ -208,9 +208,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 11f) < 0.05 && Math.Abs(_transformPosition.x + 27.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 80)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 80) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -221,9 +221,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 12f) < 0.05 && Math.Abs(_transformPosition.x + 28.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 120)
                 {
-                    int diceRollCount = (currentSpeed - 160) / 40;
+                    int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -234,9 +234,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 13f) < 0.05 && Math.Abs(_transformPosition.x + 29.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 200) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -288,9 +288,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 5f) < 0.05 && Math.Abs(_transformPosition.x + 16.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -301,7 +301,7 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 6f) < 0.05 && Math.Abs(_transformPosition.x + 15.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 120)
                 {
                     int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
@@ -314,9 +314,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 7f) < 0.05 && Math.Abs(_transformPosition.x + 14.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 80)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 80) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -328,9 +328,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 4.5f) < 0.05 && Math.Abs(_transformPosition.x + 4f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 _transformPosition.y = 4f;
@@ -340,9 +340,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 5.5f) < 0.05 && Math.Abs(_transformPosition.x + 3f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 200)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 200) / 40;
                     RollTheDice(diceRollCount);
                 }
                 _transformPosition.y = 5f;
@@ -352,9 +352,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y - 6.5f) < 0.05 && Math.Abs(_transformPosition.x + 2f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 240)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 240) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -366,9 +366,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 22f) < 0.05 && Math.Abs(_transformPosition.x + 3.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 80)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 80) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -379,7 +379,7 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 23f) < 0.05 && Math.Abs(_transformPosition.x + 2.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 120)
                 {
                     int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
@@ -392,9 +392,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 24f) < 0.05 && Math.Abs(_transformPosition.x + 1.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -406,9 +406,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 22.5f) < 0.05 && Math.Abs(_transformPosition.x + 16f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 200)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 200) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -419,9 +419,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 23.5f) < 0.05 && Math.Abs(_transformPosition.x + 17f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 240)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 240) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -432,9 +432,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 24.5f) < 0.05 && Math.Abs(_transformPosition.x + 18f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 280)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 280) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -446,9 +446,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 14f) < 0.05 && Math.Abs(_transformPosition.x + 16.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 240)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 240) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -459,9 +459,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 15f) < 0.05 && Math.Abs(_transformPosition.x + 17.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 200)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 200) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -472,9 +472,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 16f) < 0.05 && Math.Abs(_transformPosition.x + 18.5f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -486,9 +486,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 13.5f) < 0.05 && Math.Abs(_transformPosition.x + 27f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 120)
+                if (currentSpeed > 80)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 80) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -499,7 +499,7 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 14.5f) < 0.05 && Math.Abs(_transformPosition.x + 28f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 160)
+                if (currentSpeed > 120)
                 {
                     int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
@@ -512,9 +512,9 @@ public class Movement : MonoBehaviour
             if (Math.Abs(_transformPosition.y + 15.5f) < 0.05 && Math.Abs(_transformPosition.x + 29f) < 0.05)
             {
                 // verify speed
-                if (currentSpeed > 200)
+                if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
