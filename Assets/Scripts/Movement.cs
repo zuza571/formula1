@@ -564,43 +564,18 @@ public class Movement : MonoBehaviour
         
         button.gameObject.SetActive(false);
         
-        // foreach (GameObject player in GameMaster.players)
+        // old
+        // currentPlayer++;
+        // if (currentPlayer > GameParams.players)
         // {
-        //     int playerLapCount = player.GetComponent<Movement>().lap;
-        //     if (playerLapCount != -1)
-        //     {
-        //         eachPlayerHasMoved = true;
-        //     }
-        //     else
-        //     { 
-        //         eachPlayerHasMoved = false;
-        //         break;
-        //     }
+        //     currentPlayer = 1;
         // }
-        //
-        // if (!eachPlayerHasMoved)
-        // {
-        //     currentPlayer++;
-        //     if (currentPlayer > GameParams.players)
-        //     {
-        //         currentPlayer = 1;
-        //     }
-        // }
-        // else
-        // {
-        //     if (!fallOffTheTrack)
-        //     {
-        //         skipCurrentPlayer = false;
-        //         currentPlayer = CheckPlayerPositions();
-        //     }
-        // }
-
+        
         currentPlayer = CheckPlayerPositions();
 
         isMoving = false;
         GameMaster.MovePlayer(currentPlayer);
         GameMaster.CurrentUIGameMaster();
-        CheckPlayerPositions();
 
         moveCoroutine = null;
     }
