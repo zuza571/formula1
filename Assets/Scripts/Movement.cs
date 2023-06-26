@@ -698,20 +698,17 @@ public class Movement : MonoBehaviour
 
         foreach (GameObject player in playersWithLessMoves)
         {
-            if (int.Parse(player.name.Substring(player.name.Length - 1)) != _currentPlayer)
-            {
-                int playerLapCount = player.GetComponent<Movement>().lap;
+            int playerLapCount = player.GetComponent<Movement>().lap;
 
-                if (playerLapCount > highestLapCount)
-                {
-                    highestLapCount = playerLapCount;
-                    playersWithHighestLapCount.Clear();
-                    playersWithHighestLapCount.Add(player);
-                }
-                else if (playerLapCount == highestLapCount)
-                {
-                    playersWithHighestLapCount.Add(player);
-                }
+            if (playerLapCount > highestLapCount)
+            {
+                highestLapCount = playerLapCount;
+                playersWithHighestLapCount.Clear();
+                playersWithHighestLapCount.Add(player);
+            }
+            else if (playerLapCount == highestLapCount)
+            {
+                playersWithHighestLapCount.Add(player);
             }
         }
 
