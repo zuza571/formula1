@@ -743,7 +743,6 @@ public class Movement : MonoBehaviour
             }
         }
         
-
         int highestAreaID = -1;
         List<GameObject> playersInHighestArea = new List<GameObject>();
         List<GameObject> playersClosestToNextArea = new List<GameObject>();
@@ -791,7 +790,6 @@ public class Movement : MonoBehaviour
         }
 
         int playerCount = playersClosestToNextArea.Count;
-        // Debug.Log(playerCount);
         if (playerCount > 1)
         {
             int randomIndex = Random.Range(0, playerCount);
@@ -801,21 +799,8 @@ public class Movement : MonoBehaviour
         {
             playerClosestToNextArea = playersClosestToNextArea[0];
         }
-
-        //Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
-        foreach (GameObject player in playersWithHighestLapCount)
-        {
-            //Debug.Log("Gracz: " + player.name);
-        }
-
-        //Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
-        foreach (GameObject player in playersInHighestArea)
-        {
-            //Debug.Log("Gracz: " + player.name);
-        }
-
+        
         // Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
-
         int playerToMove = int.Parse(playerClosestToNextArea.name.Substring(playerClosestToNextArea.name.Length - 1));
 
         return playerToMove;
