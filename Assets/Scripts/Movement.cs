@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
 {
@@ -263,7 +262,7 @@ public class Movement : MonoBehaviour
                 // verify speed
                 if (currentSpeed > 160)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 160) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -276,7 +275,7 @@ public class Movement : MonoBehaviour
                 // verify speed
                 if (currentSpeed > 200)
                 {
-                    int diceRollCount = (currentSpeed - 120) / 40;
+                    int diceRollCount = (currentSpeed - 200) / 40;
                     RollTheDice(diceRollCount);
                 }
                 
@@ -597,46 +596,55 @@ public class Movement : MonoBehaviour
                 switch (result)
                 {
                     case 1:
+                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        currentSpeed = playerParams[0];
+                        tires = playerParams[1];
+                        
                         tires -= 1;
                         if (tires < 0)
                         {
+                            tires = 0;
                             playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
                             currentSpeed = playerParams[0];
-                            // reset movement points to 0
+                            tires = playerParams[1];
                             movementPoints = 0;
-                            // stop rolling the dice
                             rollCount = 0;
-                            tires = 0; 
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 2:
+                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        currentSpeed = playerParams[0];
+                        tires = playerParams[1];
+                        
                         tires -= 2;
                         if (tires < 0)
                         {
+                            tires = 0;
                             playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
                             currentSpeed = playerParams[0];
-                            // reset movement points to 0
+                            tires = playerParams[1];
                             movementPoints = 0;
-                            // stop rolling the dice
                             rollCount = 0;
-                            tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 3:
+                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        currentSpeed = playerParams[0];
+                        tires = playerParams[1];
+
                         tires -= 3;
                         if (tires < 0)
                         {
+                            tires = 0;
                             playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
                             currentSpeed = playerParams[0];
-                            // reset movement points to 0
+                            tires = playerParams[1];
                             movementPoints = 0;
-                            // stop rolling the dice
                             rollCount = 0;
-                            tires = 0;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -649,13 +657,14 @@ public class Movement : MonoBehaviour
                         playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
                         currentSpeed = playerParams[0];
                         tires = playerParams[1];
-                        // reset movement points to 0
                         movementPoints = 0;
-                        // stop rolling the dice
                         rollCount = 0;
                         if (tires < 0)
                         {
                             tires = 0;
+                            playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                            currentSpeed = playerParams[0];
+                            tires = playerParams[1];
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -670,6 +679,17 @@ public class Movement : MonoBehaviour
         
         // enable movement after all dice rolls
         gameObject.transform.Rotate(0,0,-0.01f);
+        float threshold = 0.0001f;
+        if (Mathf.Abs(gameObject.transform.eulerAngles.z) < threshold)
+        {
+            var eulerAngles = gameObject.transform.eulerAngles;
+            eulerAngles = new Vector3(
+                eulerAngles.x,
+                eulerAngles.y,
+                0f
+            );
+            gameObject.transform.eulerAngles = eulerAngles;
+        }
     }
 
     int CheckPlayerPositions()
@@ -717,25 +737,49 @@ public class Movement : MonoBehaviour
 
         foreach (GameObject player in playersWithHighestLapCount)
         {
+            if (player.GetComponent<Movement>()._movesInGame == 0)
+            {
+                if (playerClosestToNextArea != null &&
+                    player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                {
+                    playerClosestToNextArea = player;
+                    continue;
+                }
+                if (playerClosestToNextArea != null 
+                         && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05
+                         && player.transform.position.x < playerClosestToNextArea.transform.position.x) 
+                {
+                    playerClosestToNextArea = player;
+                    continue;
+                }
+                if (playerClosestToNextArea != null 
+                    && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05
+                    && player.transform.position.x > playerClosestToNextArea.transform.position.x) 
+                {
+                    continue;
+                }
+            }
+
             int currentAreaID = 0;
+
             if (((Math.Abs(player.transform.position.y + 11) < 0.05 &&
-                 Math.Abs(player.transform.position.x + 29.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 29.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 29.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 14) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 12) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 10) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 27.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 27.5) < 0.05)
-                || (Math.Abs(player.transform.position.y + 17) < 0.05 &&
-                    Math.Abs(player.transform.position.x + 27.5) < 0.05))
+                  Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 14) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 12) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 10) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 27.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 27.5) < 0.05)
+                 || (Math.Abs(player.transform.position.y + 17) < 0.05 &&
+                     Math.Abs(player.transform.position.x + 27.5) < 0.05))
                 && player.GetComponent<Movement>()._movesInGame > 5)
             {
                 currentAreaID = 9;
@@ -746,19 +790,24 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.x < playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
-                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .x) < 0.05
+                                                             && player.transform.position.y >
+                                                             playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > -16.4 && player.transform.position.y < -13.4 && player.transform.position.x > -30.4 &&
-                player.transform.position.x < -15.6 && Math.Abs(player.transform.eulerAngles.z - 270) < 0.05)
+            else if (player.transform.position.y > -16.4 && player.transform.position.y < -13.4 &&
+                     player.transform.position.x > -30.4 &&
+                     player.transform.position.x < -15.6 && Math.Abs(player.transform.eulerAngles.z - 270) < 0.05)
             {
                 currentAreaID = 8;
                 if (currentAreaID > areaIDMax)
@@ -768,18 +817,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.x < playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
-                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .x) < 0.05
+                                                             && player.transform.position.y >
+                                                             playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > -24.9 && player.transform.position.y < -13.1 && player.transform.position.x > -19.4 &&
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < -13.1 &&
+                     player.transform.position.x > -19.4 &&
                      player.transform.position.x < -15.6 && Math.Abs(player.transform.eulerAngles.z - 180) < 0.05)
             {
                 currentAreaID = 7;
@@ -790,18 +844,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.y > playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
-                                                             && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .y) < 0.05
+                                                             && player.transform.position.x <
+                                                             playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > -24.9 && player.transform.position.y < -22.1 && player.transform.position.x > -19.9 &&
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < -22.1 &&
+                     player.transform.position.x > -19.9 &&
                      player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 270) < 0.05)
             {
                 currentAreaID = 6;
@@ -812,18 +871,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.x < playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
-                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .x) < 0.05
+                                                             && player.transform.position.y >
+                                                             playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > -24.9 && player.transform.position.y < 6.9 && player.transform.position.x > -4.4 &&
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < 6.9 &&
+                     player.transform.position.x > -4.4 &&
                      player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 0) < 0.05)
             {
                 currentAreaID = 5;
@@ -834,18 +898,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.y < playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
-                                                             && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .y) < 0.05
+                                                             && player.transform.position.x <
+                                                             playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > 3.9 && player.transform.position.y < 7.4 && player.transform.position.x > -17.4 &&
+            else if (player.transform.position.y > 3.9 && player.transform.position.y < 7.4 &&
+                     player.transform.position.x > -17.4 &&
                      player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 90) < 0.05)
             {
                 currentAreaID = 4;
@@ -856,18 +925,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.x > playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
-                                                             && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .x) < 0.05
+                                                             && player.transform.position.y <
+                                                             playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > 4.1 && player.transform.position.y < 13.9 && player.transform.position.x > -17.4 &&
+            else if (player.transform.position.y > 4.1 && player.transform.position.y < 13.9 &&
+                     player.transform.position.x > -17.4 &&
                      player.transform.position.x < -13.6 && Math.Abs(player.transform.eulerAngles.z - 0) < 0.05)
             {
                 currentAreaID = 3;
@@ -878,18 +952,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.y < playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
-                                                             && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .y) < 0.05
+                                                             && player.transform.position.x >
+                                                             playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > 10.6 && player.transform.position.y < 14.4 && player.transform.position.x > -30 &&
+            else if (player.transform.position.y > 10.6 && player.transform.position.y < 14.4 &&
+                     player.transform.position.x > -30 &&
                      player.transform.position.x < -14 && Math.Abs(player.transform.eulerAngles.z - 90) < 0.05)
             {
                 currentAreaID = 2;
@@ -900,18 +979,23 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.x > playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
-                                                             && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .x) < 0.05
+                                                             && player.transform.position.y <
+                                                             playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
                 }
             }
-            else if (player.transform.position.y > -15.9 && player.transform.position.y < 13.9 && player.transform.position.x > -30.4 &&
+            else if (player.transform.position.y > -15.9 && player.transform.position.y < 13.9 &&
+                     player.transform.position.x > -30.4 &&
                      player.transform.position.x < -26.6 && Math.Abs(player.transform.eulerAngles.z - 180) < 0.05)
             {
                 currentAreaID = 1;
@@ -922,24 +1006,19 @@ public class Movement : MonoBehaviour
                 }
                 else if (currentAreaID == areaIDMax)
                 {
-                    if (playerClosestToNextArea != null && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    if (playerClosestToNextArea != null &&
+                        player.transform.position.y > playerClosestToNextArea.transform.position.y)
                     {
                         playerClosestToNextArea = player;
                     }
-                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
-                                                             && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y -
+                                                                         playerClosestToNextArea.transform.position
+                                                                             .y) < 0.05
+                                                             && player.transform.position.x >
+                                                             playerClosestToNextArea.transform.position.x)
                     {
                         playerClosestToNextArea = player;
                     }
-                }
-            }
-            
-            if (player.GetComponent<Movement>()._movesInGame == 0)
-            {
-                if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
-                                                    && player.transform.position.x < playerClosestToNextArea.transform.position.x)
-                {
-                    playerClosestToNextArea = player;
                 }
             }
         }

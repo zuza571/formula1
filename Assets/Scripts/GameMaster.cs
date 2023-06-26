@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour
     
     IEnumerator Start()
     {
+        PanelUIMainGameScript.ActivateRollingTheDicePanel = true;
         PanelUIMainGameScript.CurrentPlayerColor = Color.white;
         PanelUIMainGameScript.CurrentPlayer = "Player -";
 
@@ -125,7 +126,7 @@ public class GameMaster : MonoBehaviour
            Players[i].GetComponent<Movement>().moveAllowed = false;
         }
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(4f);
         PanelUIMainGameScript.ActivateRollingTheDicePanel = false;
         yield return new WaitForSeconds(1f);
 
