@@ -2239,6 +2239,142 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364058190}
   m_CullTransparentMesh: 1
+--- !u!1 &370944209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 370944210}
+  - component: {fileID: 370944214}
+  - component: {fileID: 370944213}
+  - component: {fileID: 370944212}
+  - component: {fileID: 370944215}
+  m_Layer: 5
+  m_Name: SkipTurnButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &370944210
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370944209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 854775669}
+  m_Father: {fileID: 924452999}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -23, y: 458}
+  m_SizeDelta: {x: 300, y: 60}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &370944212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370944209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+    m_HighlightedColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+    m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_SelectedColor: {r: 0.49803925, g: 0.49803925, b: 0.49803925, a: 1}
+    m_DisabledColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 370944213}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &370944213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370944209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &370944214
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370944209}
+  m_CullTransparentMesh: 1
+--- !u!114 &370944215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370944209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6188692a61dc6c440bdcf4eca54368bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 370944212}
 --- !u!1 &374135379
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,6 +2645,143 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411067187}
+  m_CullTransparentMesh: 1
+--- !u!1 &436891954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 436891955}
+  - component: {fileID: 436891957}
+  - component: {fileID: 436891956}
+  m_Layer: 5
+  m_Name: DiceResults
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &436891955
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436891954}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 924452999}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2.3, y: 467.2}
+  m_SizeDelta: {x: 380, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &436891956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436891954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '
+
+'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &436891957
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436891954}
   m_CullTransparentMesh: 1
 --- !u!1 &454588433
 GameObject:
@@ -4794,6 +5067,7 @@ MonoBehaviour:
   moveAllowed: 0
   movementPoints: 0
   lap: 1
+  button: {fileID: 370944215}
 --- !u!114 &847567665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4884,6 +5158,141 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!1 &854775668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 854775669}
+  - component: {fileID: 854775671}
+  - component: {fileID: 854775670}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &854775669
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854775668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 370944210}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &854775670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854775668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Skip Turn
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 42df1c7856584b6b8db9a509b6b10074, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 32
+  m_fontSizeBase: 32
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &854775671
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854775668}
+  m_CullTransparentMesh: 1
 --- !u!1 &862453577
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,6 +5596,8 @@ RectTransform:
   - {fileID: 563228991}
   - {fileID: 1008844421}
   - {fileID: 467108666}
+  - {fileID: 370944210}
+  - {fileID: 436891955}
   m_Father: {fileID: 660482632}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6339,7 +6750,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163712698}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -27.5, y: -7, z: 2.7}
+  m_LocalPosition: {x: -27, y: 11.5, z: 2.7}
   m_LocalScale: {x: 5, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6363,6 +6774,7 @@ MonoBehaviour:
   moveAllowed: 0
   movementPoints: 0
   lap: 1
+  button: {fileID: 370944215}
 --- !u!61 &1163712702
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21235,7 +21647,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playersNumber: 0
-  startingPlayer: 0
 --- !u!4 &1448419275
 Transform:
   m_ObjectHideFlags: 0
@@ -23779,7 +24190,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932342790}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1448419277}
+        m_TargetAssemblyTypeName: RulesPanel, Assembly-CSharp
+        m_MethodName: ResumeGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1932342790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23888,28 +24311,28 @@ MonoBehaviour:
     musi przylega\u0107 do pola, z kt\xF3rego zjecha\u0142 i mie\u0107 ko\u0144cow\u0105
     kraw\u0119d\u017A po\u0142o\u017Con\u0105 dalej od pocz\u0105tku wy\u015Bcigu.
     Czasami przy zmianie pasa na bardziej wewn\u0119trzny, z 2 kolejnych p\xF3l wje\u017Cd\u017Ca
-    si\u0119 na to samo pole. Na jednym polu mo\u017Ce sta\u0107 tylko jeden samoch\xF3d
-    nie mo\u017Cna przeje\u017Cd\u017Ca\u0107 przez pole na kt\xF3rym stoi inny samoch\xF3d.
-    Nie mo\u017Cna te\u017C przeskakiwa\u0107 przez takie pole. Je\u015Bli gracz
-    nie mo\u017Ce si\u0119 migdzie ruszy\u0107 traci punkty ruchu, ale nie traci
-    pr\u0119dko\u015Bci. O kolejno\u015Bci kolejki decyduje odleg\u0142o\u015B\u0107
-    od mety - porusza si\u0119 gracz b\u0119d\u0105cy najbli\u017Cej mety. Je\u015Bli
-    jest 2 graczy na r\xF3wni - wybierany jest losowy gracz  z tych 2. Gdy prowadz\u0105cy
-    gracz wypadnie z toru, wybierany jest kolejny najbli\u017Cszy mety gracz.\n\nPr\u0119dko\u015B\u0107
-    samochodu \u2013 Liczba p\xF3l, kt\xF3re samoch\xF3d pokonuje w jednym ruchu,
-    jest zwi\u0105zana z jego pr\u0119dko\u015Bci\u0105 -  ka\u017Cde 40 km/h to
-    jedno pole. Przyk\u0142ad: gracz chce przesun\u0105\u0107 samoch\xF3d o 5 p\xF3l
-    - ustawia pr\u0119dko\u015B\u0107 200 km/h; analogicznie ruch z pr\u0119dko\u015Bci\u0105
-    320 km/h oznacza przesuni\u0119cie samochodu o 8 p\xF3l. Przed ka\u017Cdym ruchem
-    gracz ustala z jak\u0105 pr\u0119dko\u015Bci\u0105 b\u0119dzie porusza\u0142
-    si\u0119 jego samoch\xF3d. Mo\u017Ce to by\u0107 pr\u0119dko\u015B\u0107 taka
-    sama jak w poprzednim ruchu, wi\u0119ksza albo mniejsza. Zale\u017Cy to wy\u0142\u0105cznie
-    od decyzji gracza, a jedynym ograniczeniem jest liczba posiadanych opon.\n\nPrzyspieszanie
-    i Hamowanie \u2013 Je\u017Celi samoch\xF3d porusza si\u0119 z tak\u0105 sam\u0105
-    pr\u0119dko\u015Bci\u0105, jak w poprzednim ruchu, przyspiesza o 40, 80 lub 120
-    km/h albo hamuje o 40 km/h to nie zu\u017Cywa opon. Je\u017Celi gracz chce bardziej
-    przyspieszy\u0107 albo zwolni\u0107, to musi odda\u0107 odpowiedni\u0105 liczb\u0119
-    opon, wed\u0142ug tabelek umieszczonych obok planszy.\n\nPr\u0119dko\u015B\u0107
+    si\u0119 na to samo pole. Na jednym polu mo\u017Ce sta\u0107 tylko jeden samoch\xF3d,
+    nie mo\u017Cna przeje\u017Cd\u017Ca\u0107 przez pole, na kt\xF3rym stoi inny
+    samoch\xF3d. Nie mo\u017Cna te\u017C przeskakiwa\u0107 przez takie pole. Je\u015Bli
+    gracz nie mo\u017Ce si\u0119 nigdzie ruszy\u0107, musi u\u017Cy\u0107 przycisku
+    'Skip turn' - jest to awaryjne hamowanie do 0. Gr\u0119 zaczyna gracz, kt\xF3ry
+    wyrzuci najwi\u0119cej oczek na kostce. O tym kto zaczyna ka\u017Cd\u0105 kolejn\u0105
+    tur\u0119 decyduje odleg\u0142o\u015B\u0107 od mety - jako pierwszy porusza si\u0119
+    gracz b\u0119d\u0105cy najbli\u017Cej mety. Je\u015Bli jest 2 graczy na r\xF3wni
+    - wybierany jest losowy gracz  z tych 2. \n\nPr\u0119dko\u015B\u0107 samochodu
+    \u2013 Liczba p\xF3l, kt\xF3re samoch\xF3d pokonuje w jednym ruchu, jest zwi\u0105zana
+    z jego pr\u0119dko\u015Bci\u0105 -  ka\u017Cde 40 km/h to jedno pole. Przyk\u0142ad:
+    gracz chce przesun\u0105\u0107 samoch\xF3d o 5 p\xF3l - ustawia pr\u0119dko\u015B\u0107
+    200 km/h, analogicznie ruch z pr\u0119dko\u015Bci\u0105 320 km/h oznacza przesuni\u0119cie
+    samochodu o 8 p\xF3l. Przed ka\u017Cdym ruchem gracz ustala z jak\u0105 pr\u0119dko\u015Bci\u0105
+    b\u0119dzie porusza\u0142 si\u0119 jego samoch\xF3d. Mo\u017Ce to by\u0107 pr\u0119dko\u015B\u0107
+    taka sama jak w poprzednim ruchu, wi\u0119ksza albo mniejsza. Zale\u017Cy to
+    wy\u0142\u0105cznie od decyzji gracza, a jedynym ograniczeniem jest liczba posiadanych
+    opon.\n\nPrzyspieszanie i Hamowanie \u2013 Je\u017Celi samoch\xF3d porusza si\u0119
+    z tak\u0105 sam\u0105 pr\u0119dko\u015Bci\u0105, jak w poprzednim ruchu, przyspiesza
+    o 40, 80 lub 120 km/h albo hamuje o 40 km/h to nie zu\u017Cywa opon. Je\u017Celi
+    gracz chce bardziej przyspieszy\u0107 albo zwolni\u0107, to musi odda\u0107 odpowiedni\u0105
+    liczb\u0119 opon, wed\u0142ug tabelek umieszczonych obok planszy.\n\nPr\u0119dko\u015B\u0107
     na Zakr\u0119tach \u2013 Samochody mog\u0105 porusza\u0107 si\u0119 po torze
     z dowoln\u0105 pr\u0119dko\u015Bci\u0105. Na polach na \u015Brodku ka\u017Cdego
     zakr\u0119tu podana zosta\u0142a pr\u0119dko\u015B\u0107 bezpieczna, obowi\u0105zuj\u0105ca
@@ -23925,11 +24348,16 @@ MonoBehaviour:
     z toru samoch\xF3d zostaje na miejscu, na kt\xF3rym wypad\u0142 z toru. Pr\u0119dko\u015B\u0107
     ustawia si\u0119 na zero, a gracz musi odda\u0107 tyle opon, ile potrzeba do
     zahamowania od pr\u0119dko\u015Bci, przy kt\xF3rej samoch\xF3d wypad\u0142 z
-    toru, do zera.\n\nZako\u0144czenie gry \u2013 Aby uko\u0144czy\u0107 wy\u015Bcig
-    trzeba wjecha\u0107 na jedno z p\xF3l mety, zamalowanych na czarno-bia\u0142\u0105
-    kratk\u0119 lub przejecha\u0107 przez takie pole. Graz, kt\xF3rego samoch\xF3d
-    jako pierwszy wjedzie na met\u0119 po odpowiedniej liczbie okr\u0105\u017Ce\u0144,
-    zostaje zwyci\u0119zc\u0105.\n"
+    toru, do zera.\n\nPrzycisk Skip Turn - Przycisk skip turn mo\u017Ce by\u0107
+    u\u017Cyty, je\u017Celi gracz pope\u0142ni b\u0142\u0105d i nie b\u0119dzie m\xF3g\u0142
+    si\u0119 ruszy\u0107 pomimo tego, \u017Ce zosta\u0142y mu punkty ruchu. U\u017Cycie
+    przycisku skip turn powoduj\u0119 utrat\u0119 punkt\xF3w ruchu a tak\u017Ce spadek
+    pr\u0119dko\u015Bci z aktualnej do 0 i utrat\u0119 opon w zwi\u0105zku z tym
+    hamowaniem. Przycisk Skip Turn jest innymi s\u0142owy hamowaniem awaryjnym.\n\nZako\u0144czenie
+    gry \u2013 Aby uko\u0144czy\u0107 wy\u015Bcig trzeba wjecha\u0107 na jedno z
+    p\xF3l mety, zamalowanych na czarno-bia\u0142\u0105 kratk\u0119 lub przejecha\u0107
+    przez takie pole. Graz, kt\xF3rego samoch\xF3d jako pierwszy wjedzie na met\u0119
+    po odpowiedniej liczbie okr\u0105\u017Ce\u0144, zostaje zwyci\u0119zc\u0105.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -23956,8 +24384,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -24993,7 +25421,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100254011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.3, y: -5.4, z: -18}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0

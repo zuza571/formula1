@@ -12,7 +12,7 @@ public class Dice : MonoBehaviour
     public Image image;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         renderer = GetComponent<SpriteRenderer>();
         diceSlides = Resources.LoadAll<Sprite>("Dice/dice");

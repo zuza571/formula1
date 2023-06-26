@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -10,10 +12,12 @@ public class GameMaster : MonoBehaviour
     public static GameObject triggerStart1, triggerStart2, triggerStart3, triggerStart4, triggerStart5, triggerStart6, 
         trigger2_final;
     public int playersNumber;
-    public int startingPlayer;
     public static int currentPlayer;
-
-    void Start()
+    private bool isCoroutineRunning;
+    private int startingPlayerIndex;
+    private Dictionary<int, int> sortedPlayerResultMapping;
+    
+    IEnumerator Start()
     {
         players = new List<GameObject>();
         playersNumber = GameParams.players;
@@ -111,19 +115,42 @@ public class GameMaster : MonoBehaviour
                 availableIndices.Remove(randomIndex);
             }
         }
-
-        // todo: rzut kostką kto zaczyna
-        startingPlayer = 1;
-        currentPlayer = 1;
-
+        
+        // disable movement
         for (int i = 0; i < players.Count; i++)
         {
-            if (i != startingPlayer)
+           players[i].GetComponent<Movement>().moveAllowed = false;
+        }
+        
+        RollTheDice(playersNumber);
+        yield return new WaitUntil(() => StartingPlayer > 0);
+        
+        // change starting positions
+        int triggerIndex = 1;
+        GameObject firstPlayer = players[startingPlayerIndex - 1];
+        firstPlayer.transform.position = GameObject.Find("Trigger_start1").transform.position;
+        triggerIndex++;
+
+        foreach (var entry in sortedPlayerResultMapping)
+        {
+            int playerIdx = entry.Key;
+            int result = entry.Value;
+
+            if (playerIdx != startingPlayerIndex && triggerIndex <= 6)
             {
-                players[i].GetComponent<Movement>().moveAllowed = false;
+                GameObject trigger = GameObject.Find("Trigger_start" + triggerIndex);
+                if (trigger != null)
+                {
+                    players[playerIdx - 1].transform.position = trigger.transform.position;
+                    triggerIndex++;
+                }
             }
         }
-        players[startingPlayer - 1].GetComponent<Movement>().moveAllowed = true;
+
+        currentPlayer = startingPlayerIndex;
+        players[startingPlayerIndex - 1].GetComponent<Movement>().moveAllowed = true;
+
+        CurrentUIGameMaster();
     }
 
     public static void MovePlayer(int playerToMove)
@@ -190,6 +217,34 @@ public class GameMaster : MonoBehaviour
             if (players[i].GetComponent<Movement>().moveAllowed)
             {
                 PanelUIMainGameScript.CurrentPlayer = "Player " + (i + 1);
+                Sprite sprite = players[i].GetComponent<SpriteRenderer>().sprite;
+                String spriteName = sprite.name;
+
+                if (spriteName.Contains("car_red"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = Color.red;
+                }
+                else if (spriteName.Contains("car_blue"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = Color.blue;
+                } 
+                else if (spriteName.Contains("car_black"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = Color.black;
+                } 
+                else if (spriteName.Contains("car_yellow"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = Color.yellow;
+                } 
+                else if (spriteName.Contains("car_green"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = new Color(0f, 0.5f, 0f);;
+                } 
+                else if (spriteName.Contains("car_orange"))
+                {
+                    PanelUIMainGameScript.CurrentPlayerColor = new Color(1f, 0.5f, 0f);;
+                }
+
                 PanelUIMainGameScript.CurrentSpeed = players[i].GetComponent<Movement>().currentSpeed;
                 PanelUIMainGameScript.CurrentTires = players[i].GetComponent<Movement>().tires;
                 PanelUIMainGameScript.CurrentLap = players[i].GetComponent<Movement>().lap + 1;
@@ -198,4 +253,62 @@ public class GameMaster : MonoBehaviour
         }
     }
     
+    void RollTheDice(int playerNumber) { StartCoroutine(RollDiceStart(playerNumber)); }
+
+    public IEnumerator RollDiceStart(int playerNumber)
+    {
+        bool isCoroutineRunning = true;
+
+        Dictionary<int, int> playerResultMapping = new Dictionary<int, int>();
+        int playerIdx = 1;
+        while (playerIdx <= playerNumber)
+        {
+            Dice diceScript = FindObjectOfType<Dice>();
+            if (diceScript != null)
+            {
+                StartCoroutine(diceScript.RollTheDice());
+                yield return new WaitUntil(() => diceScript.RandomDiceSlide > 0);
+                int result = diceScript.RandomDiceSlide;
+                Debug.Log("player" + playerIdx + ": " + result);
+                
+                playerResultMapping.Add(playerIdx, result);
+            }
+
+            yield return new WaitForSeconds(2f);
+            
+            playerIdx++;
+        }
+        sortedPlayerResultMapping = playerResultMapping.OrderByDescending(x => x.Value)
+            .ToDictionary(x => x.Key, x => x.Value);
+
+        int maxResult = playerResultMapping.Values.Max();
+        List<int> playersWithMaxResult = playerResultMapping.Where(x => 
+            x.Value == maxResult).Select(x => x.Key).ToList();
+
+        if (playersWithMaxResult.Count > 1)
+        {
+            startingPlayerIndex = playersWithMaxResult[Random.Range(0, playersWithMaxResult.Count)];
+        }
+        else
+        {
+            startingPlayerIndex = playersWithMaxResult[0];
+        }
+
+        isCoroutineRunning = false;
+    }
+    
+    public int StartingPlayer
+    {
+        get
+        {
+            if (isCoroutineRunning)
+            {
+                return 0;
+            }
+            else
+            {
+                return startingPlayerIndex;
+            }
+        }
+    }
 }

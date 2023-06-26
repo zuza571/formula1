@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
@@ -12,6 +11,7 @@ public class Movement : MonoBehaviour
     public bool moveAllowed; 
     public int movementPoints;
     public int lap;
+    public SkipTurnButtonScript button;
 
     private Vector3 transformPosition;
     private Coroutine moveCoroutine;
@@ -23,10 +23,10 @@ public class Movement : MonoBehaviour
     private int chosenSpeed;
     private int track;
 
-    private List<int> playerIndices;
     private int currentPlayer;
-    private int eachPlayerHasMoved = 0;
-    public int playerMoved = 0;
+    private bool eachPlayerHasMoved;
+    private bool skipCurrentPlayer;
+    private int movesInGame = 0;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
     {
@@ -48,11 +48,6 @@ public class Movement : MonoBehaviour
         tires = GameParams.tires;
         uiScript = FindObjectOfType<UIScript>();
         currentPlayer = GameMaster.currentPlayer;
-        playerIndices = new List<int>();
-        for (int i = 0; i < GameMaster.players.Count; i++)
-        {
-            playerIndices.Add(i);
-        }
     }
     
     private void Update()
@@ -96,9 +91,30 @@ public class Movement : MonoBehaviour
         movementPoints = moves[currentSpeed];
         PanelUIMainGameScript.CurrentTires = tires;
         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+        movesInGame++;
         
+        button.gameObject.SetActive(true);
+
         while (movementPoints > 0)
         {
+            
+            if (button.ShouldResetPoints())
+            {
+                playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                currentSpeed = playerParams[0];
+                tires = playerParams[1];
+                // reset movement points to 0
+                movementPoints = 0;
+                if (tires < 0)
+                {
+                    tires = 0;
+                }
+                skipCurrentPlayer = true;
+                PanelUIMainGameScript.CurrentTires = tires;
+                PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+                break;
+            }
+            
             transformPosition = gameObject.transform.position; 
             float rotationZ = gameObject.transform.eulerAngles.z;
 
@@ -539,101 +555,52 @@ public class Movement : MonoBehaviour
             }
 
             PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-
-            while (NextField(transformPosition)) { yield return null; }
             GameMaster.UpdateLaps(transformPosition);
             
+            while (NextField(transformPosition)) { yield return null; }
+
             yield return new WaitForSeconds(0.1f);
         }
-
-        // 1st turn
-        foreach (GameObject player in GameMaster.players)
-        {
-            int playerLapCount = player.GetComponent<Movement>().lap;
-            if (playerLapCount != -1) 
-            {
-                player.GetComponent<Movement>().playerMoved = 1;
-                eachPlayerHasMoved = 1;
-            }
-            else
-            { 
-                player.GetComponent<Movement>().playerMoved = 0;
-                eachPlayerHasMoved = 0;
-                break;
-            }
-        }
-
-        if (eachPlayerHasMoved == 0)
-        {
-            // currentPlayer = playerIndices[currentPlayer - 1];
-            // currentPlayer++;
-            // if (currentPlayer - 1 >= playerIndices.Count)
-            // {
-            //     currentPlayer = 1;
-            // }
-            currentPlayer++;
-            if (currentPlayer > GameParams.players)
-            {
-                currentPlayer = 1;
-            }
-        }
-        else
-        {
-            currentPlayer++;
-            if (currentPlayer > GameParams.players)
-            {
-                currentPlayer = 1;
-            }
-        }
-        // other turns
-        // else
+        
+        button.gameObject.SetActive(false);
+        
+        // foreach (GameObject player in GameMaster.players)
         // {
-        //     eachPlayerHasMoved = -eachPlayerHasMoved;
-        //     bool allPlayersMoved = true;
-        //     foreach (GameObject player in GameMaster.players)
+        //     int playerLapCount = player.GetComponent<Movement>().lap;
+        //     if (playerLapCount != -1)
         //     {
-        //         player.GetComponent<Movement>().playerMoved = eachPlayerHasMoved;
-        //         int moved = player.GetComponent<Movement>().playerMoved;
-        //         if (moved != eachPlayerHasMoved)
-        //         {
-        //             allPlayersMoved = false;
-        //             break;
-        //         }
-        //     }
-        //     
-        //     if (allPlayersMoved)
-        //     {
-        //         eachPlayerHasMoved = -eachPlayerHasMoved;
-        //         playerMoved = eachPlayerHasMoved;
-        //
-        //         Debug.Log("KONIEC TURY");
-        //         // todo: kto zaczyna
-        //         //currentPlayer = CheckPlayerPositions();
-        //         
-        //         // int closestPlayerIndex = playerIndices[0];
-        //         // playerIndices.RemoveAt(0);
-        //         // playerIndices.Insert(0, closestPlayerIndex);
+        //         eachPlayerHasMoved = true;
         //     }
         //     else
-        //     {
-        //         // currentPlayer = playerIndices[currentPlayer - 1];
-        //         // currentPlayer++;
-        //         // if (currentPlayer - 1 >= playerIndices.Count)
-        //         // {
-        //         //     currentPlayer = 1;
-        //         // }
-        //         currentPlayer++;
-        //         if (currentPlayer > GameParams.players)
-        //         {
-        //             currentPlayer = 1;
-        //         }
+        //     { 
+        //         eachPlayerHasMoved = false;
+        //         break;
         //     }
         // }
-        
+        //
+        // if (!eachPlayerHasMoved)
+        // {
+        //     currentPlayer++;
+        //     if (currentPlayer > GameParams.players)
+        //     {
+        //         currentPlayer = 1;
+        //     }
+        // }
+        // else
+        // {
+        //     if (!fallOffTheTrack)
+        //     {
+        //         skipCurrentPlayer = false;
+        //         currentPlayer = CheckPlayerPositions();
+        //     }
+        // }
+
+        currentPlayer = CheckPlayerPositions();
 
         isMoving = false;
         GameMaster.MovePlayer(currentPlayer);
         GameMaster.CurrentUIGameMaster();
+        CheckPlayerPositions();
 
         moveCoroutine = null;
     }
@@ -645,7 +612,7 @@ public class Movement : MonoBehaviour
     
     void RollTheDice(int rollCount) { StartCoroutine(RollDiceWithTimeout(rollCount)); }
     
-    private IEnumerator RollDiceWithTimeout(int rollCount)
+    public IEnumerator RollDiceWithTimeout(int rollCount)
     {
         // disable movement
         gameObject.transform.Rotate(0,0,0.01f);
@@ -672,7 +639,7 @@ public class Movement : MonoBehaviour
                             movementPoints = 0;
                             // stop rolling the dice
                             rollCount = 0;
-                            tires = 0;
+                            tires = 0; 
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -740,25 +707,67 @@ public class Movement : MonoBehaviour
 
     int CheckPlayerPositions()
     {
+        List<GameObject> playersWithLessMoves = new List<GameObject>();
+        int playerMovesInGameMin =  GameMaster.players[0].GetComponent<Movement>().movesInGame;
+        foreach (GameObject player in GameMaster.players)
+        {
+            int playerMovesInGame = player.GetComponent<Movement>().movesInGame;
+            if (playerMovesInGame < playerMovesInGameMin)
+            {
+                playerMovesInGameMin = playerMovesInGame;
+            }
+        }
+        foreach (GameObject player in GameMaster.players)
+        {
+            if (player.GetComponent<Movement>().movesInGame == playerMovesInGameMin)
+            {
+                playersWithLessMoves.Add(player);
+            }
+        }
+
         int highestLapCount = -1;
         List<GameObject> playersWithHighestLapCount = new List<GameObject>();
 
-       
-        foreach (GameObject player in GameMaster.players)
+        if (!skipCurrentPlayer)
         {
-            int playerLapCount = player.GetComponent<Movement>().lap;
+            foreach (GameObject player in playersWithLessMoves)
+            {
+                int playerLapCount = player.GetComponent<Movement>().lap;
 
-            if (playerLapCount > highestLapCount)
-            {
-                highestLapCount = playerLapCount;
-                playersWithHighestLapCount.Clear();
-                playersWithHighestLapCount.Add(player);
-            }
-            else if (playerLapCount == highestLapCount)
-            {
-                playersWithHighestLapCount.Add(player);
+                if (playerLapCount > highestLapCount)
+                {
+                    highestLapCount = playerLapCount;
+                    playersWithHighestLapCount.Clear();
+                    playersWithHighestLapCount.Add(player);
+                }
+                else if (playerLapCount == highestLapCount)
+                {
+                    playersWithHighestLapCount.Add(player);
+                }
             }
         }
+        else
+        {
+            foreach (GameObject player in GameMaster.players)
+            {
+                if (int.Parse(player.name.Substring(player.name.Length - 1)) != currentPlayer)
+                {
+                    int playerLapCount = player.GetComponent<Movement>().lap;
+
+                    if (playerLapCount > highestLapCount)
+                    {
+                        highestLapCount = playerLapCount;
+                        playersWithHighestLapCount.Clear();
+                        playersWithHighestLapCount.Add(player);
+                    }
+                    else if (playerLapCount == highestLapCount)
+                    {
+                        playersWithHighestLapCount.Add(player);
+                    }
+                }
+            }
+        }
+        
 
         int highestAreaID = -1;
         List<GameObject> playersInHighestArea = new List<GameObject>();
@@ -807,7 +816,7 @@ public class Movement : MonoBehaviour
         }
 
         int playerCount = playersClosestToNextArea.Count;
-        Debug.Log(playerCount);
+        // Debug.Log(playerCount);
         if (playerCount > 1)
         {
             int randomIndex = Random.Range(0, playerCount);
@@ -818,19 +827,19 @@ public class Movement : MonoBehaviour
             playerClosestToNextArea = playersClosestToNextArea[0];
         }
 
-        Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
+        //Debug.Log("Gracze z najwyższą liczbą okrążeń: " + highestLapCount);
         foreach (GameObject player in playersWithHighestLapCount)
         {
-            Debug.Log("Gracz: " + player.name);
+            //Debug.Log("Gracz: " + player.name);
         }
 
-        Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
+        //Debug.Log("Gracze w obszarze o najwyższym ID: " + highestAreaID);
         foreach (GameObject player in playersInHighestArea)
         {
-            Debug.Log("Gracz: " + player.name);
+            //Debug.Log("Gracz: " + player.name);
         }
 
-        Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
+        // Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
 
         int playerToMove = int.Parse(playerClosestToNextArea.name.Substring(playerClosestToNextArea.name.Length - 1));
 
@@ -840,13 +849,7 @@ public class Movement : MonoBehaviour
     private int AssignArea(Vector3 position)
     {
         int area = 0;
-        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) && 
-            (((Math.Abs((GameMaster.triggerStart1.transform.position.y) - position.y) > 0.05 
-               && Math.Abs(GameMaster.triggerStart1.transform.position.x - position.x) < 0.05))
-             || ((Math.Abs((GameMaster.trigger2_final.transform.position.y) - position.y) > 0.05 
-                  && Math.Abs(GameMaster.trigger2_final.transform.position.x - position.x) < 0.05))
-             || ((Math.Abs((GameMaster.triggerStart2.transform.position.y) - position.y) > 0.05 
-                  && Math.Abs(GameMaster.triggerStart2.transform.position.x - position.x) < 0.05))))
+        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f))
         {
             area = 1;
         }

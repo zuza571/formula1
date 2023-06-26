@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class MainMenu : MonoBehaviour
 {
@@ -15,6 +19,9 @@ public class MainMenu : MonoBehaviour
         TextMeshProUGUITires.SetText(GameParams.tires.ToString());
         TextMeshProUGUILaps.SetText(GameParams.laps.ToString());
         
+        GameParams.players = 2;
+        GameParams.tires = 40;
+        GameParams.laps = 2;
     }
 
     public void PlayGame()
