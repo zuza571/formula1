@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PanelUIMainGameScript : MonoBehaviour
 {
-    //todo: wpisac gracza który zaczyna - zmienic jego kolor - zmienic kolory po rozpoczeciu nowej gry
     public static Color CurrentPlayerColor = Color.white;
     public static string CurrentPlayer = "Player -";
     public static int CurrentSpeed = 0;

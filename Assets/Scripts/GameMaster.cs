@@ -148,12 +148,11 @@ public class GameMaster : MonoBehaviour
         }
 
         currentPlayer = startingPlayerIndex;
-        
         players[startingPlayerIndex - 1].GetComponent<Movement>().moveAllowed = true;
 
         CurrentUIGameMaster();
     }
-    
+
     public static void MovePlayer(int playerToMove)
     {
         foreach (GameObject player in players)

@@ -26,7 +26,6 @@ public class Movement : MonoBehaviour
     private int currentPlayer;
     private bool eachPlayerHasMoved;
     private bool skipCurrentPlayer;
-    private bool fallOffTheTrack;
     private int movesInGame = 0;
 
     private Dictionary<int, int> moves = new Dictionary<int, int>()
@@ -111,8 +110,6 @@ public class Movement : MonoBehaviour
                     tires = 0;
                 }
                 skipCurrentPlayer = true;
-                currentPlayer = CheckPlayerPositions();
-                fallOffTheTrack = true;
                 PanelUIMainGameScript.CurrentTires = tires;
                 PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 break;
@@ -567,36 +564,38 @@ public class Movement : MonoBehaviour
         
         button.gameObject.SetActive(false);
         
-        foreach (GameObject player in GameMaster.players)
-        {
-            int playerLapCount = player.GetComponent<Movement>().lap;
-            if (playerLapCount != -1)
-            {
-                eachPlayerHasMoved = true;
-            }
-            else
-            { 
-                eachPlayerHasMoved = false;
-                break;
-            }
-        }
+        // foreach (GameObject player in GameMaster.players)
+        // {
+        //     int playerLapCount = player.GetComponent<Movement>().lap;
+        //     if (playerLapCount != -1)
+        //     {
+        //         eachPlayerHasMoved = true;
+        //     }
+        //     else
+        //     { 
+        //         eachPlayerHasMoved = false;
+        //         break;
+        //     }
+        // }
+        //
+        // if (!eachPlayerHasMoved)
+        // {
+        //     currentPlayer++;
+        //     if (currentPlayer > GameParams.players)
+        //     {
+        //         currentPlayer = 1;
+        //     }
+        // }
+        // else
+        // {
+        //     if (!fallOffTheTrack)
+        //     {
+        //         skipCurrentPlayer = false;
+        //         currentPlayer = CheckPlayerPositions();
+        //     }
+        // }
 
-        if (!eachPlayerHasMoved)
-        {
-            currentPlayer++;
-            if (currentPlayer > GameParams.players)
-            {
-                currentPlayer = 1;
-            }
-        }
-        else
-        {
-            if (!fallOffTheTrack)
-            {
-                skipCurrentPlayer = false;
-                currentPlayer = CheckPlayerPositions();
-            }
-        }
+        currentPlayer = CheckPlayerPositions();
 
         isMoving = false;
         GameMaster.MovePlayer(currentPlayer);
@@ -640,10 +639,7 @@ public class Movement : MonoBehaviour
                             movementPoints = 0;
                             // stop rolling the dice
                             rollCount = 0;
-                            tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
+                            tires = 0; 
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -659,9 +655,6 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -677,9 +670,6 @@ public class Movement : MonoBehaviour
                             // stop rolling the dice
                             rollCount = 0;
                             tires = 0;
-                            skipCurrentPlayer = true;
-                            currentPlayer = CheckPlayerPositions();
-                            fallOffTheTrack = true;
                         }
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -700,9 +690,6 @@ public class Movement : MonoBehaviour
                         {
                             tires = 0;
                         }
-                        skipCurrentPlayer = true;
-                        currentPlayer = CheckPlayerPositions();
-                        fallOffTheTrack = true;
                         PanelUIMainGameScript.CurrentTires = tires;
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
@@ -862,13 +849,7 @@ public class Movement : MonoBehaviour
     private int AssignArea(Vector3 position)
     {
         int area = 0;
-        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f) && 
-            (((Math.Abs((GameMaster.triggerStart1.transform.position.y) - position.y) > 0.05 
-               && Math.Abs(GameMaster.triggerStart1.transform.position.x - position.x) < 0.05))
-             || ((Math.Abs((GameMaster.trigger2_final.transform.position.y) - position.y) > 0.05 
-                  && Math.Abs(GameMaster.trigger2_final.transform.position.x - position.x) < 0.05))
-             || ((Math.Abs((GameMaster.triggerStart2.transform.position.y) - position.y) > 0.05 
-                  && Math.Abs(GameMaster.triggerStart2.transform.position.x - position.x) < 0.05))))
+        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f))
         {
             area = 1;
         }
