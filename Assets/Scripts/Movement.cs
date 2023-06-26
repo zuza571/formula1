@@ -13,22 +13,22 @@ public class Movement : MonoBehaviour
     public int lap;
     public SkipTurnButtonScript button;
 
-    private Vector3 transformPosition;
-    private Coroutine moveCoroutine;
+    private Vector3 _transformPosition;
+    private Coroutine _moveCoroutine;
 
-    private bool isMoving;
-    private bool handledDiceRoll;
+    private bool _isMoving;
+    private bool _handledDiceRoll;
 
-    private static UIScript uiScript;
-    private int chosenSpeed;
-    private int track;
+    private static UIScript _uiScript;
+    private int _chosenSpeed;
+    private int _track;
 
-    private int currentPlayer;
-    private bool eachPlayerHasMoved;
-    private bool skipCurrentPlayer;
-    private int movesInGame = 0;
+    private int _currentPlayer;
+    private bool _eachPlayerHasMoved;
+    private bool _skipCurrentPlayer;
+    public int _movesInGame = 0;
 
-    private Dictionary<int, int> moves = new Dictionary<int, int>()
+    private Dictionary<int, int> _moves = new Dictionary<int, int>()
     {
         { 0, 0 },
         { 40, 1 },
@@ -46,33 +46,33 @@ public class Movement : MonoBehaviour
         // then changed to zero, it is to get know when all gamers made 1st move
         lap = -1;
         tires = GameParams.tires;
-        uiScript = FindObjectOfType<UIScript>();
-        currentPlayer = GameMaster.currentPlayer;
+        _uiScript = FindObjectOfType<UIScript>();
+        _currentPlayer = GameMaster.CurrentPlayer;
     }
     
     private void Update()
     {
         if (gameObject.name == "Player1") {
-            currentPlayer = 1;
+            _currentPlayer = 1;
         } else if (gameObject.name == "Player2") {
-            currentPlayer = 2;
+            _currentPlayer = 2;
         } else if (gameObject.name == "Player3") {
-            currentPlayer = 3;
+            _currentPlayer = 3;
         } else if (gameObject.name == "Player4") {
-            currentPlayer = 4;
+            _currentPlayer = 4;
         } else if (gameObject.name == "Player5") {
-            currentPlayer = 5;
+            _currentPlayer = 5;
         } else if (gameObject.name == "Player6") {
-            currentPlayer = 6;
+            _currentPlayer = 6;
         }
         
-        if (!isMoving) {
-            if (moveAllowed && moveCoroutine == null)
+        if (!_isMoving) {
+            if (moveAllowed && _moveCoroutine == null)
             {
-                if (uiScript.HasChosenSpeed)
+                if (_uiScript.HasChosenSpeed)
                 {
-                    chosenSpeed = uiScript.ChosenSpeed;
-                    moveCoroutine = StartCoroutine(Move());
+                    _chosenSpeed = _uiScript.ChosenSpeed;
+                    _moveCoroutine = StartCoroutine(Move());
                 }
             } 
         }
@@ -80,18 +80,18 @@ public class Movement : MonoBehaviour
     
     IEnumerator Move() 
     {
-        if (isMoving) { yield break; }
-        isMoving = true;
+        if (_isMoving) { yield break; }
+        _isMoving = true;
 
-        int[] playerParams = SpeedChanging.ChangeParams(chosenSpeed, currentSpeed, tires);
+        int[] playerParams = SpeedChanging.ChangeParams(_chosenSpeed, currentSpeed, tires);
 
         currentSpeed = playerParams[0];
         tires = playerParams[1];
 
-        movementPoints = moves[currentSpeed];
+        movementPoints = _moves[currentSpeed];
         PanelUIMainGameScript.CurrentTires = tires;
         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-        movesInGame++;
+        _movesInGame++;
         
         button.gameObject.SetActive(true);
 
@@ -109,13 +109,12 @@ public class Movement : MonoBehaviour
                 {
                     tires = 0;
                 }
-                skipCurrentPlayer = true;
                 PanelUIMainGameScript.CurrentTires = tires;
                 PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 break;
             }
             
-            transformPosition = gameObject.transform.position; 
+            _transformPosition = gameObject.transform.position; 
             float rotationZ = gameObject.transform.eulerAngles.z;
 
             // left track
@@ -123,26 +122,26 @@ public class Movement : MonoBehaviour
             {
                 if (Quaternion.Equals(rotationZ, 180f))
                 {
-                    transformPosition.x -= 1;
-                    transformPosition.y += 1;
+                    _transformPosition.x -= 1;
+                    _transformPosition.y += 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 270f))
                 {
-                    transformPosition.x -= 1;
-                    transformPosition.y -= 1;
+                    _transformPosition.x -= 1;
+                    _transformPosition.y -= 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 0f))
                 {
-                    transformPosition.x += 1;
-                    transformPosition.y -= 1;
+                    _transformPosition.x += 1;
+                    _transformPosition.y -= 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 90f))
                 {
-                    transformPosition.x += 1;
-                    transformPosition.y += 1;
+                    _transformPosition.x += 1;
+                    _transformPosition.y += 1;
                 }
 
-                if (transformPosition != gameObject.transform.position)
+                if (_transformPosition != gameObject.transform.position)
                 {
                     movementPoints--;
                     PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -153,26 +152,26 @@ public class Movement : MonoBehaviour
             {
                 if (Quaternion.Equals(rotationZ, 180f))
                 {
-                    transformPosition.x += 1;
-                    transformPosition.y += 1;
+                    _transformPosition.x += 1;
+                    _transformPosition.y += 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 270f))
                 {
-                    transformPosition.x -= 1;
-                    transformPosition.y += 1;
+                    _transformPosition.x -= 1;
+                    _transformPosition.y += 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 0f))
                 {
-                    transformPosition.x -= 1;
-                    transformPosition.y -= 1;
+                    _transformPosition.x -= 1;
+                    _transformPosition.y -= 1;
                 }
                 else if (Quaternion.Equals(rotationZ, 90f))
                 {
-                    transformPosition.x += 1;
-                    transformPosition.y -= 1;
+                    _transformPosition.x += 1;
+                    _transformPosition.y -= 1;
                 }
 
-                if (transformPosition != gameObject.transform.position)
+                if (_transformPosition != gameObject.transform.position)
                 {
                     movementPoints--; 
                     PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -183,22 +182,22 @@ public class Movement : MonoBehaviour
             {
                 if (Quaternion.Equals(rotationZ, 180f))
                 {
-                    transformPosition.y += 2;
+                    _transformPosition.y += 2;
                 }
                 else if (Quaternion.Equals(rotationZ, 270f))
                 {
-                    transformPosition.x -= 2;
+                    _transformPosition.x -= 2;
                 }
                 else if (Quaternion.Equals(rotationZ, 0f))
                 {
-                    transformPosition.y -= 2;
+                    _transformPosition.y -= 2;
                 }
                 else if (Quaternion.Equals(rotationZ, 90f))
                 {
-                    transformPosition.x += 2;
+                    _transformPosition.x += 2;
                 }
 
-                if (transformPosition != gameObject.transform.position)
+                if (_transformPosition != gameObject.transform.position)
                 {
                     movementPoints--; 
                     PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
@@ -206,7 +205,7 @@ public class Movement : MonoBehaviour
             }
             
             // turning 
-            if (Math.Abs(transformPosition.y - 11f) < 0.05 && Math.Abs(transformPosition.x + 27.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 11f) < 0.05 && Math.Abs(_transformPosition.x + 27.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 120)
@@ -215,11 +214,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 11.5f;
-                transformPosition.x = -27f;
+                _transformPosition.y = 11.5f;
+                _transformPosition.x = -27f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y - 12f) < 0.05 && Math.Abs(transformPosition.x + 28.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 12f) < 0.05 && Math.Abs(_transformPosition.x + 28.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 160)
@@ -228,11 +227,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 12.5f;
-                transformPosition.x = -28f;
+                _transformPosition.y = 12.5f;
+                _transformPosition.x = -28f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y - 13f) < 0.05 && Math.Abs(transformPosition.x + 29.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 13f) < 0.05 && Math.Abs(_transformPosition.x + 29.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 200)
@@ -241,12 +240,12 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 13.5f;
-                transformPosition.x = -29f;
+                _transformPosition.y = 13.5f;
+                _transformPosition.x = -29f;
                 transform.Rotate(0,0,-90);
             }
             
-            if (Math.Abs(transformPosition.y - 11.5f) < 0.05 && Math.Abs(transformPosition.x + 17f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 11.5f) < 0.05 && Math.Abs(_transformPosition.x + 17f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 120)
@@ -255,11 +254,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 11f;
-                transformPosition.x = -16.5f;
+                _transformPosition.y = 11f;
+                _transformPosition.x = -16.5f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y - 12.5f) < 0.05 && Math.Abs(transformPosition.x + 16f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 12.5f) < 0.05 && Math.Abs(_transformPosition.x + 16f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 160)
@@ -268,11 +267,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 12f;
-                transformPosition.x = -15.5f;
+                _transformPosition.y = 12f;
+                _transformPosition.x = -15.5f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y - 13.5f) < 0.05 && Math.Abs(transformPosition.x + 15f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 13.5f) < 0.05 && Math.Abs(_transformPosition.x + 15f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 200)
@@ -281,12 +280,12 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 13f;
-                transformPosition.x = -14.5f;
+                _transformPosition.y = 13f;
+                _transformPosition.x = -14.5f;
                 transform.Rotate(0,0,-90);
             }
             
-            if (Math.Abs(transformPosition.y - 5f) < 0.05 && Math.Abs(transformPosition.x + 16.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 5f) < 0.05 && Math.Abs(_transformPosition.x + 16.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 120)
@@ -295,11 +294,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 4.5f;
-                transformPosition.x = -16f;
+                _transformPosition.y = 4.5f;
+                _transformPosition.x = -16f;
                 transform.Rotate(0,0,90);
             }
-            if (Math.Abs(transformPosition.y - 6f) < 0.05 && Math.Abs(transformPosition.x + 15.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 6f) < 0.05 && Math.Abs(_transformPosition.x + 15.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 160)
@@ -308,11 +307,11 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 5.5f;
-                transformPosition.x = -15f;
+                _transformPosition.y = 5.5f;
+                _transformPosition.x = -15f;
                 transform.Rotate(0,0,90);
             }
-            if (Math.Abs(transformPosition.y - 7f) < 0.05 && Math.Abs(transformPosition.x + 14.5f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 7f) < 0.05 && Math.Abs(_transformPosition.x + 14.5f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 200)
@@ -321,170 +320,12 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = 6.5f;
-                transformPosition.x = -14f;
-                transform.Rotate(0,0,90);
-            }
-            
-            if (Math.Abs(transformPosition.y - 4.5f) < 0.05 && Math.Abs(transformPosition.x + 4f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 120)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                transformPosition.y = 4f;
-                transformPosition.x = -3.5f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y - 5.5f) < 0.05 && Math.Abs(transformPosition.x + 3f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 160)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                transformPosition.y = 5f;
-                transformPosition.x = -2.5f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y - 6.5f) < 0.05 && Math.Abs(transformPosition.x + 2f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 200)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = 6f;
-                transformPosition.x = -1.5f;
-                transform.Rotate(0,0,-90);
-            }
-            
-            if (Math.Abs(transformPosition.y + 22f) < 0.05 && Math.Abs(transformPosition.x + 3.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 120)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -22.5f;
-                transformPosition.x = -4f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y + 23f) < 0.05 && Math.Abs(transformPosition.x + 2.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 160)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -23.5f;
-                transformPosition.x = -3f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y + 24f) < 0.05 && Math.Abs(transformPosition.x + 1.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 200)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -24.5f;
-                transformPosition.x = -2f;
-                transform.Rotate(0,0,-90);
-            }
-            
-            if (Math.Abs(transformPosition.y + 22.5f) < 0.05 && Math.Abs(transformPosition.x + 16f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 120)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -22f;
-                transformPosition.x = -16.5f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y + 23.5f) < 0.05 && Math.Abs(transformPosition.x + 17f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 160)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -23f;
-                transformPosition.x = -17.5f;
-                transform.Rotate(0,0,-90);
-            }
-            if (Math.Abs(transformPosition.y + 24.5f) < 0.05 && Math.Abs(transformPosition.x + 18f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 200)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -24f;
-                transformPosition.x = -18.5f;
-                transform.Rotate(0,0,-90);
-            }
-            
-            if (Math.Abs(transformPosition.y + 14f) < 0.05 && Math.Abs(transformPosition.x + 16.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 120)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -13.5f;
-                transformPosition.x = -17f;
-                transform.Rotate(0,0,90);
-            }
-            if (Math.Abs(transformPosition.y + 15f) < 0.05 && Math.Abs(transformPosition.x + 17.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 160)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -14.5f;
-                transformPosition.x = -18f;
-                transform.Rotate(0,0,90);
-            }
-            if (Math.Abs(transformPosition.y + 16f) < 0.05 && Math.Abs(transformPosition.x + 18.5f) < 0.05)
-            {
-                // verify speed
-                if (currentSpeed > 200)
-                {
-                    int diceRollCount = (currentSpeed - 120) / 40;
-                    RollTheDice(diceRollCount);
-                }
-                
-                transformPosition.y = -15.5f;
-                transformPosition.x = -19f;
+                _transformPosition.y = 6.5f;
+                _transformPosition.x = -14f;
                 transform.Rotate(0,0,90);
             }
             
-            if (Math.Abs(transformPosition.y + 13.5f) < 0.05 && Math.Abs(transformPosition.x + 27f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 4.5f) < 0.05 && Math.Abs(_transformPosition.x + 4f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 120)
@@ -492,12 +333,11 @@ public class Movement : MonoBehaviour
                     int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
                 }
-                
-                transformPosition.y = -13f;
-                transformPosition.x = -27.5f;
+                _transformPosition.y = 4f;
+                _transformPosition.x = -3.5f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y + 14.5f) < 0.05 && Math.Abs(transformPosition.x + 28f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 5.5f) < 0.05 && Math.Abs(_transformPosition.x + 3f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 160)
@@ -505,12 +345,11 @@ public class Movement : MonoBehaviour
                     int diceRollCount = (currentSpeed - 120) / 40;
                     RollTheDice(diceRollCount);
                 }
-                
-                transformPosition.y = -14f;
-                transformPosition.x = -28.5f;
+                _transformPosition.y = 5f;
+                _transformPosition.x = -2.5f;
                 transform.Rotate(0,0,-90);
             }
-            if (Math.Abs(transformPosition.y + 15.5f) < 0.05 && Math.Abs(transformPosition.x + 29f) < 0.05)
+            if (Math.Abs(_transformPosition.y - 6.5f) < 0.05 && Math.Abs(_transformPosition.x + 2f) < 0.05)
             {
                 // verify speed
                 if (currentSpeed > 200)
@@ -519,65 +358,218 @@ public class Movement : MonoBehaviour
                     RollTheDice(diceRollCount);
                 }
                 
-                transformPosition.y = -15f;
-                transformPosition.x = -29.5f;
+                _transformPosition.y = 6f;
+                _transformPosition.x = -1.5f;
+                transform.Rotate(0,0,-90);
+            }
+            
+            if (Math.Abs(_transformPosition.y + 22f) < 0.05 && Math.Abs(_transformPosition.x + 3.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 120)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -22.5f;
+                _transformPosition.x = -4f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 23f) < 0.05 && Math.Abs(_transformPosition.x + 2.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 160)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -23.5f;
+                _transformPosition.x = -3f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 24f) < 0.05 && Math.Abs(_transformPosition.x + 1.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 200)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -24.5f;
+                _transformPosition.x = -2f;
+                transform.Rotate(0,0,-90);
+            }
+            
+            if (Math.Abs(_transformPosition.y + 22.5f) < 0.05 && Math.Abs(_transformPosition.x + 16f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 120)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -22f;
+                _transformPosition.x = -16.5f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 23.5f) < 0.05 && Math.Abs(_transformPosition.x + 17f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 160)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -23f;
+                _transformPosition.x = -17.5f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 24.5f) < 0.05 && Math.Abs(_transformPosition.x + 18f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 200)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -24f;
+                _transformPosition.x = -18.5f;
+                transform.Rotate(0,0,-90);
+            }
+            
+            if (Math.Abs(_transformPosition.y + 14f) < 0.05 && Math.Abs(_transformPosition.x + 16.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 120)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -13.5f;
+                _transformPosition.x = -17f;
+                transform.Rotate(0,0,90);
+            }
+            if (Math.Abs(_transformPosition.y + 15f) < 0.05 && Math.Abs(_transformPosition.x + 17.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 160)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -14.5f;
+                _transformPosition.x = -18f;
+                transform.Rotate(0,0,90);
+            }
+            if (Math.Abs(_transformPosition.y + 16f) < 0.05 && Math.Abs(_transformPosition.x + 18.5f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 200)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -15.5f;
+                _transformPosition.x = -19f;
+                transform.Rotate(0,0,90);
+            }
+            
+            if (Math.Abs(_transformPosition.y + 13.5f) < 0.05 && Math.Abs(_transformPosition.x + 27f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 120)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -13f;
+                _transformPosition.x = -27.5f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 14.5f) < 0.05 && Math.Abs(_transformPosition.x + 28f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 160)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -14f;
+                _transformPosition.x = -28.5f;
+                transform.Rotate(0,0,-90);
+            }
+            if (Math.Abs(_transformPosition.y + 15.5f) < 0.05 && Math.Abs(_transformPosition.x + 29f) < 0.05)
+            {
+                // verify speed
+                if (currentSpeed > 200)
+                {
+                    int diceRollCount = (currentSpeed - 120) / 40;
+                    RollTheDice(diceRollCount);
+                }
+                
+                _transformPosition.y = -15f;
+                _transformPosition.x = -29.5f;
                 transform.Rotate(0,0,-90);
             }
             
             // map edges
-            if (!((transformPosition.y > -15.9 && transformPosition.y < 13.9 && transformPosition.x > -30.4 && transformPosition.x < -26.6) 
-                || (transformPosition.y > 10.6 && transformPosition.y < 14.4 && transformPosition.x > -30 && transformPosition.x < -14)
-                || (transformPosition.y > 4.1 && transformPosition.y < 13.9 && transformPosition.x > -17.4 && transformPosition.x < -13.6)
-                || (transformPosition.y > 3.9 && transformPosition.y < 7.4 && transformPosition.x > -17.4 && transformPosition.x < -0.6)
-                || (transformPosition.y > -24.9 && transformPosition.y < 6.9 && transformPosition.x > -4.4 && transformPosition.x < -0.6)
-                || (transformPosition.y > -24.9 && transformPosition.y < -22.1 && transformPosition.x > -19.9 && transformPosition.x < -0.6)
-                || (transformPosition.y > -24.9 && transformPosition.y < -13.1 && transformPosition.x > -19.4 && transformPosition.x < -15.6)
-                || (transformPosition.y > -16.4 && transformPosition.y < -13.4 && transformPosition.x > -30.4 && transformPosition.x < -15.6)))
+            if (!((_transformPosition.y > -15.9 && _transformPosition.y < 13.9 && _transformPosition.x > -30.4 && _transformPosition.x < -26.6) 
+                || (_transformPosition.y > 10.6 && _transformPosition.y < 14.4 && _transformPosition.x > -30 && _transformPosition.x < -14)
+                || (_transformPosition.y > 4.1 && _transformPosition.y < 13.9 && _transformPosition.x > -17.4 && _transformPosition.x < -13.6)
+                || (_transformPosition.y > 3.9 && _transformPosition.y < 7.4 && _transformPosition.x > -17.4 && _transformPosition.x < -0.6)
+                || (_transformPosition.y > -24.9 && _transformPosition.y < 6.9 && _transformPosition.x > -4.4 && _transformPosition.x < -0.6)
+                || (_transformPosition.y > -24.9 && _transformPosition.y < -22.1 && _transformPosition.x > -19.9 && _transformPosition.x < -0.6)
+                || (_transformPosition.y > -24.9 && _transformPosition.y < -13.1 && _transformPosition.x > -19.4 && _transformPosition.x < -15.6)
+                || (_transformPosition.y > -16.4 && _transformPosition.y < -13.4 && _transformPosition.x > -30.4 && _transformPosition.x < -15.6)))
             {
                 Debug.Log("Wyjeżdzasz za mapę!");
-                transformPosition = transform.position;
+                _transformPosition = transform.position;
                 movementPoints++;
             }
 
             // get other player's position
-            List<Vector3> otherPlayerPositions = GameMaster.OtherPlayerPosition(currentPlayer);
+            List<Vector3> otherPlayerPositions = GameMaster.OtherPlayerPosition(_currentPlayer);
             foreach (Vector3 position in otherPlayerPositions)
             {
-                float distance = Vector3.Distance(transformPosition, position);
+                float distance = Vector3.Distance(_transformPosition, position);
 
                 if (Mathf.Abs(distance) < 0.05f)
                 {
                     Debug.Log("Inny gracz jest tutaj");
-                    transformPosition = transform.position;
+                    _transformPosition = transform.position;
                     movementPoints++;
                     break;
                 }
             }
 
             PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-            GameMaster.UpdateLaps(transformPosition);
+            GameMaster.UpdateLaps(_transformPosition);
             
-            while (NextField(transformPosition)) { yield return null; }
+            while (NextField(_transformPosition)) { yield return null; }
 
             yield return new WaitForSeconds(0.1f);
         }
         
         button.gameObject.SetActive(false);
-        
-        // old
-        // currentPlayer++;
-        // if (currentPlayer > GameParams.players)
-        // {
-        //     currentPlayer = 1;
-        // }
-        
-        currentPlayer = CheckPlayerPositions();
 
-        isMoving = false;
-        GameMaster.MovePlayer(currentPlayer);
+        _currentPlayer = CheckPlayerPositions();
+
+        _isMoving = false;
+        GameMaster.MovePlayer(_currentPlayer);
         GameMaster.CurrentUIGameMaster();
 
-        moveCoroutine = null;
+        _moveCoroutine = null;
     }
     
     bool NextField(Vector3 dest) {
@@ -683,18 +675,19 @@ public class Movement : MonoBehaviour
     int CheckPlayerPositions()
     {
         List<GameObject> playersWithLessMoves = new List<GameObject>();
-        int playerMovesInGameMin =  GameMaster.players[0].GetComponent<Movement>().movesInGame;
-        foreach (GameObject player in GameMaster.players)
+        int playerMovesInGameMin = GameMaster.Players[0].GetComponent<Movement>()._movesInGame;
+        foreach (GameObject player in GameMaster.Players)
         {
-            int playerMovesInGame = player.GetComponent<Movement>().movesInGame;
+            int playerMovesInGame = player.GetComponent<Movement>()._movesInGame;
             if (playerMovesInGame < playerMovesInGameMin)
             {
                 playerMovesInGameMin = playerMovesInGame;
             }
         }
-        foreach (GameObject player in GameMaster.players)
+
+        foreach (GameObject player in GameMaster.Players)
         {
-            if (player.GetComponent<Movement>().movesInGame == playerMovesInGameMin)
+            if (player.GetComponent<Movement>()._movesInGame == playerMovesInGameMin)
             {
                 playersWithLessMoves.Add(player);
             }
@@ -703,9 +696,9 @@ public class Movement : MonoBehaviour
         int highestLapCount = -1;
         List<GameObject> playersWithHighestLapCount = new List<GameObject>();
 
-        if (!skipCurrentPlayer)
+        foreach (GameObject player in playersWithLessMoves)
         {
-            foreach (GameObject player in playersWithLessMoves)
+            if (int.Parse(player.name.Substring(player.name.Length - 1)) != _currentPlayer)
             {
                 int playerLapCount = player.GetComponent<Movement>().lap;
 
@@ -721,172 +714,243 @@ public class Movement : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            foreach (GameObject player in GameMaster.players)
-            {
-                if (int.Parse(player.name.Substring(player.name.Length - 1)) != currentPlayer)
-                {
-                    int playerLapCount = player.GetComponent<Movement>().lap;
 
-                    if (playerLapCount > highestLapCount)
-                    {
-                        highestLapCount = playerLapCount;
-                        playersWithHighestLapCount.Clear();
-                        playersWithHighestLapCount.Add(player);
-                    }
-                    else if (playerLapCount == highestLapCount)
-                    {
-                        playersWithHighestLapCount.Add(player);
-                    }
-                }
-            }
-        }
-        
-        int highestAreaID = -1;
-        List<GameObject> playersInHighestArea = new List<GameObject>();
-        List<GameObject> playersClosestToNextArea = new List<GameObject>();
+        int areaIDMax = 0;
         GameObject playerClosestToNextArea = null;
-        float closestDistanceToNextArea = float.MaxValue;
 
         foreach (GameObject player in playersWithHighestLapCount)
         {
-            Vector3 playerPosition = player.transform.position;
-            int playerArea = AssignArea(playerPosition);
-
-            if (playerArea > highestAreaID)
+            int currentAreaID = 0;
+            if (((Math.Abs(player.transform.position.y + 11) < 0.05 &&
+                 Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 29.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 14) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 12) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 10) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 28.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 13) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 27.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 15) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 27.5) < 0.05)
+                || (Math.Abs(player.transform.position.y + 17) < 0.05 &&
+                    Math.Abs(player.transform.position.x + 27.5) < 0.05))
+                && player.GetComponent<Movement>()._movesInGame > 5)
             {
-                highestAreaID = playerArea;
-                playersInHighestArea.Clear();
-                playersInHighestArea.Add(player);
+                currentAreaID = 9;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
+                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
             }
-            else if (playerArea == highestAreaID)
+            else if (player.transform.position.y > -16.4 && player.transform.position.y < -13.4 && player.transform.position.x > -30.4 &&
+                player.transform.position.x < -15.6 && Math.Abs(player.transform.eulerAngles.z - 270) < 0.05)
             {
-                playersInHighestArea.Add(player);
+                currentAreaID = 8;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
+                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < -13.1 && player.transform.position.x > -19.4 &&
+                     player.transform.position.x < -15.6 && Math.Abs(player.transform.eulerAngles.z - 180) < 0.05)
+            {
+                currentAreaID = 7;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
+                                                             && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < -22.1 && player.transform.position.x > -19.9 &&
+                     player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 270) < 0.05)
+            {
+                currentAreaID = 6;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
+                                                             && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > -24.9 && player.transform.position.y < 6.9 && player.transform.position.x > -4.4 &&
+                     player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 0) < 0.05)
+            {
+                currentAreaID = 5;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
+                                                             && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > 3.9 && player.transform.position.y < 7.4 && player.transform.position.x > -17.4 &&
+                     player.transform.position.x < -0.6 && Math.Abs(player.transform.eulerAngles.z - 90) < 0.05)
+            {
+                currentAreaID = 4;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
+                                                             && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > 4.1 && player.transform.position.y < 13.9 && player.transform.position.x > -17.4 &&
+                     player.transform.position.x < -13.6 && Math.Abs(player.transform.eulerAngles.z - 0) < 0.05)
+            {
+                currentAreaID = 3;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
+                                                             && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > 10.6 && player.transform.position.y < 14.4 && player.transform.position.x > -30 &&
+                     player.transform.position.x < -14 && Math.Abs(player.transform.eulerAngles.z - 90) < 0.05)
+            {
+                currentAreaID = 2;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.x - playerClosestToNextArea.transform.position.x) < 0.05 
+                                                             && player.transform.position.y < playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            else if (player.transform.position.y > -15.9 && player.transform.position.y < 13.9 && player.transform.position.x > -30.4 &&
+                     player.transform.position.x < -26.6 && Math.Abs(player.transform.eulerAngles.z - 180) < 0.05)
+            {
+                currentAreaID = 1;
+                if (currentAreaID > areaIDMax)
+                {
+                    areaIDMax = currentAreaID;
+                    playerClosestToNextArea = player;
+                }
+                else if (currentAreaID == areaIDMax)
+                {
+                    if (playerClosestToNextArea != null && player.transform.position.y > playerClosestToNextArea.transform.position.y)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                    else if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
+                                                             && player.transform.position.x > playerClosestToNextArea.transform.position.x)
+                    {
+                        playerClosestToNextArea = player;
+                    }
+                }
+            }
+            
+            if (player.GetComponent<Movement>()._movesInGame == 0)
+            {
+                if (playerClosestToNextArea != null && Math.Abs(player.transform.position.y - playerClosestToNextArea.transform.position.y) < 0.05 
+                                                    && player.transform.position.x < playerClosestToNextArea.transform.position.x)
+                {
+                    playerClosestToNextArea = player;
+                }
             }
         }
 
-        int nextAreaID = highestAreaID + 1;
-        int nextAreaIndex = nextAreaID % 9;
-
-        // distance to next area
-        Vector3 nextAreaCenter = GetAreaCenter(nextAreaIndex);
-        foreach (GameObject player_ in playersInHighestArea)
-        {
-            // todo: zmienic liczenie dystansu do nastepnego obszaru ?
-            Vector3 playerPosition_ = player_.transform.position;
-            float distanceToNextArea = Vector3.Distance(playerPosition_, nextAreaCenter);
-
-            if (distanceToNextArea < closestDistanceToNextArea)
-            {
-                closestDistanceToNextArea = distanceToNextArea;
-                playersClosestToNextArea.Clear();
-                playersClosestToNextArea.Add(player_);
-            }
-            else if (Mathf.Abs(distanceToNextArea - closestDistanceToNextArea) < 0.5f)
-            {
-                playersClosestToNextArea.Add(player_);
-            }
-        }
-
-        int playerCount = playersClosestToNextArea.Count;
-        if (playerCount > 1)
-        {
-            int randomIndex = Random.Range(0, playerCount);
-            playerClosestToNextArea = playersClosestToNextArea[randomIndex];
-        }
-        else if (playerCount == 1)
-        {
-            playerClosestToNextArea = playersClosestToNextArea[0];
-        }
-        
         // Debug.Log("Gracz najbliżej następnego obszaru: " + playerClosestToNextArea.name);
         int playerToMove = int.Parse(playerClosestToNextArea.name.Substring(playerClosestToNextArea.name.Length - 1));
 
         return playerToMove;
-    }
-    
-    private int AssignArea(Vector3 position)
-    {
-        int area = 0;
-        if ((position.y > -8.6f && position.y < 13.9f && position.x > -30.4f && position.x < -26.6f))
-        {
-            area = 1;
-        }
-        else if (position.y > 10.6f && position.y < 14.4f && position.x > -30f && position.x < -14f)
-        {
-            area = 2;
-        }
-        else if (position.y > 4.1f && position.y < 13.9f && position.x > -17.4f && position.x < -13.6f)
-        {
-            area = 3;
-        } else if (position.y > 3.9f && position.y < 7.4f && position.x > -17.4f && position.x < -0.6f)
-        {
-            area = 4;
-        }
-        else if (position.y > -24.9f && position.y < 6.9f && position.x > -4.4f && position.x < -0.6f)
-        {
-            area = 5;
-        }
-        else if (position.y > -24.9f && position.y < -22.1f && position.x > -19.9f && position.x < -0.6f)
-        {
-            area = 6;
-        }
-        else if (position.y > -24.9f && position.y < -13.1f && position.x > -19.4f && position.x < -15.6f)
-        {
-            area = 7;
-        }
-        else if (position.y > -16.4f && position.y < -13.4f && position.x > -30.4f && position.x < -15.6f)
-        {
-            area = 8;
-        }
-        else if ((position.y > -15.9f && position.y < -6.6f && position.x > -30.4f && position.x < -26.6f) 
-                 && GetComponent<Movement>().lap > 0)
-        {
-            area = 9;
-        }
-
-        return area;
-    }
-    
-    Vector3 GetAreaCenter(int areaID)
-    {
-        Vector3 areaCenter = Vector3.zero;
-        switch (areaID)
-        {
-            case 1:
-                areaCenter = new Vector3(-28.5f, 3.65f, 2.7f);
-                break;
-            case 2:
-                areaCenter = new Vector3(-22f, 12.5f, 2.7f);
-                break;
-            case 3:
-                areaCenter = new Vector3(-15.5f, 8.95f, 2.7f);
-                break;
-            case 4:
-                areaCenter = new Vector3(-9f, 5.65f, 2.7f);
-                break;
-            case 5:
-                areaCenter = new Vector3(-2.5f, -9f, 2.7f);
-                break;
-            case 6:
-                areaCenter = new Vector3(-9f, -23.5f, 2.7f);
-                break;
-            case 7:
-                areaCenter = new Vector3(-22f, -19.5f, 2.7f);
-                break;
-            case 8:
-                areaCenter = new Vector3(-22f, -14.9f, 2.7f);
-                break;
-            case 9:
-                areaCenter = new Vector3(-28.5f, -11.25f, 2.7f);
-                break;
-            default:
-                Debug.LogError("Nieprawidłowy identyfikator obszaru: " + areaID);
-                break;
-        }
-
-        return areaCenter;
     }
 
 }

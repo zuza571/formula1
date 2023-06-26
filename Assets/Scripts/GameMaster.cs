@@ -8,29 +8,32 @@ using Random = UnityEngine.Random;
 
 public class GameMaster : MonoBehaviour
 {
-    public static List<GameObject> players;
-    public static GameObject triggerStart1, triggerStart2, triggerStart3, triggerStart4, triggerStart5, triggerStart6, 
-        trigger2_final;
+    public static List<GameObject> Players;
+    public static GameObject TriggerStart1, TriggerStart2, TriggerStart3, TriggerStart4, TriggerStart5, TriggerStart6, 
+        Trigger2Final;
     public int playersNumber;
-    public static int currentPlayer;
-    private bool isCoroutineRunning;
-    private int startingPlayerIndex;
-    private Dictionary<int, int> sortedPlayerResultMapping;
+    public static int CurrentPlayer;
+    private bool _isCoroutineRunning;
+    private int _startingPlayerIndex;
+    private Dictionary<int, int> _sortedPlayerResultMapping;
     
     IEnumerator Start()
     {
-        players = new List<GameObject>();
-        playersNumber = GameParams.players;
-        players.Add(GameObject.Find("Player1"));
-        players.Add(GameObject.Find("Player2"));
+        PanelUIMainGameScript.CurrentPlayerColor = Color.white;
+        PanelUIMainGameScript.CurrentPlayer = "Player -";
 
-        triggerStart1 = GameObject.Find("Trigger_start1");
-        triggerStart2 = GameObject.Find("Trigger_start2");
-        triggerStart3 = GameObject.Find("Trigger_start3");
-        triggerStart4 = GameObject.Find("Trigger_start4");
-        triggerStart5 = GameObject.Find("Trigger_start5");
-        triggerStart6 = GameObject.Find("Trigger_start6");
-        trigger2_final = GameObject.Find("Trigger_start2-final");
+        Players = new List<GameObject>();
+        playersNumber = GameParams.players;
+        Players.Add(GameObject.Find("Player1"));
+        Players.Add(GameObject.Find("Player2"));
+
+        TriggerStart1 = GameObject.Find("Trigger_start1");
+        TriggerStart2 = GameObject.Find("Trigger_start2");
+        TriggerStart3 = GameObject.Find("Trigger_start3");
+        TriggerStart4 = GameObject.Find("Trigger_start4");
+        TriggerStart5 = GameObject.Find("Trigger_start5");
+        TriggerStart6 = GameObject.Find("Trigger_start6");
+        Trigger2Final = GameObject.Find("Trigger_start2-final");
 
         Sprite[] carSprites = new Sprite[6];
         carSprites[0] = Resources.Load<Sprite>("Cars/car_blue");
@@ -49,12 +52,12 @@ public class GameMaster : MonoBehaviour
         // add new players
         if (playersNumber > 2)
         {
-            GameObject player1 = players[0];
+            GameObject player1 = Players[0];
             for (int i = 3; i <= playersNumber; i++)
             {
                 GameObject newPlayer = Instantiate(player1);
                 newPlayer.name = "Player" + i;
-                players.Add(newPlayer);
+                Players.Add(newPlayer);
             }
         }
 
@@ -63,45 +66,45 @@ public class GameMaster : MonoBehaviour
         {
             if (playersNumber == 3)
             {
-                players[0].transform.position = triggerStart1.transform.position;
-                players[1].transform.position = triggerStart2.transform.position;
-                players[2].transform.position = triggerStart3.transform.position;
+                Players[0].transform.position = TriggerStart1.transform.position;
+                Players[1].transform.position = TriggerStart2.transform.position;
+                Players[2].transform.position = TriggerStart3.transform.position;
             }
             else if (playersNumber == 4)
             {
-                players[0].transform.position = triggerStart1.transform.position;
-                players[1].transform.position = triggerStart2.transform.position;
-                players[2].transform.position = triggerStart3.transform.position;
-                players[3].transform.position = triggerStart4.transform.position;
+                Players[0].transform.position = TriggerStart1.transform.position;
+                Players[1].transform.position = TriggerStart2.transform.position;
+                Players[2].transform.position = TriggerStart3.transform.position;
+                Players[3].transform.position = TriggerStart4.transform.position;
             }
             else if (playersNumber == 5)
             {
-                players[0].transform.position = triggerStart1.transform.position;
-                players[1].transform.position = triggerStart2.transform.position;
-                players[2].transform.position = triggerStart3.transform.position;
-                players[3].transform.position = triggerStart4.transform.position;
-                players[4].transform.position = triggerStart5.transform.position;
+                Players[0].transform.position = TriggerStart1.transform.position;
+                Players[1].transform.position = TriggerStart2.transform.position;
+                Players[2].transform.position = TriggerStart3.transform.position;
+                Players[3].transform.position = TriggerStart4.transform.position;
+                Players[4].transform.position = TriggerStart5.transform.position;
             }
             else if (playersNumber == 6)
             {
-                players[0].transform.position = triggerStart1.transform.position;
-                players[1].transform.position = triggerStart2.transform.position;
-                players[2].transform.position = triggerStart3.transform.position;
-                players[3].transform.position = triggerStart4.transform.position;
-                players[4].transform.position = triggerStart5.transform.position;
-                players[5].transform.position = triggerStart6.transform.position;
+                Players[0].transform.position = TriggerStart1.transform.position;
+                Players[1].transform.position = TriggerStart2.transform.position;
+                Players[2].transform.position = TriggerStart3.transform.position;
+                Players[3].transform.position = TriggerStart4.transform.position;
+                Players[4].transform.position = TriggerStart5.transform.position;
+                Players[5].transform.position = TriggerStart6.transform.position;
             }
         }
         else
         {
-            players[0].transform.position = triggerStart1.transform.position;
-            players[1].transform.position = triggerStart2.transform.position;
+            Players[0].transform.position = TriggerStart1.transform.position;
+            Players[1].transform.position = TriggerStart2.transform.position;
         }
         
         // randomly choose racing cars
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
-            GameObject player = players[i];
+            GameObject player = Players[i];
 
             if (availableIndices.Count > 0)
             {
@@ -117,9 +120,9 @@ public class GameMaster : MonoBehaviour
         }
         
         // disable movement
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
-           players[i].GetComponent<Movement>().moveAllowed = false;
+           Players[i].GetComponent<Movement>().moveAllowed = false;
         }
         
         RollTheDice(playersNumber);
@@ -127,50 +130,48 @@ public class GameMaster : MonoBehaviour
         
         // change starting positions
         int triggerIndex = 1;
-        GameObject firstPlayer = players[startingPlayerIndex - 1];
+        GameObject firstPlayer = Players[_startingPlayerIndex - 1];
         firstPlayer.transform.position = GameObject.Find("Trigger_start1").transform.position;
         triggerIndex++;
 
-        foreach (var entry in sortedPlayerResultMapping)
+        foreach (var entry in _sortedPlayerResultMapping)
         {
             int playerIdx = entry.Key;
-            int result = entry.Value;
-
-            if (playerIdx != startingPlayerIndex && triggerIndex <= 6)
+            if (playerIdx != _startingPlayerIndex && triggerIndex <= 6)
             {
                 GameObject trigger = GameObject.Find("Trigger_start" + triggerIndex);
                 if (trigger != null)
                 {
-                    players[playerIdx - 1].transform.position = trigger.transform.position;
+                    Players[playerIdx - 1].transform.position = trigger.transform.position;
                     triggerIndex++;
                 }
             }
         }
 
-        currentPlayer = startingPlayerIndex;
-        players[startingPlayerIndex - 1].GetComponent<Movement>().moveAllowed = true;
+        CurrentPlayer = _startingPlayerIndex;
+        Players[_startingPlayerIndex - 1].GetComponent<Movement>().moveAllowed = true;
 
         CurrentUIGameMaster();
     }
 
     public static void MovePlayer(int playerToMove)
     {
-        foreach (GameObject player in players)
+        foreach (GameObject player in Players)
         {
             player.GetComponent<Movement>().moveAllowed = false;
         }
-        players[playerToMove - 1].GetComponent<Movement>().moveAllowed = true;
+        Players[playerToMove - 1].GetComponent<Movement>().moveAllowed = true;
     }
 
     public static List<Vector3> OtherPlayerPosition(int currentPlayer)
     {
         List<Vector3> positions = new List<Vector3>();
 
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
             if (i + 1 != currentPlayer)
             {
-                positions.Add(players[i].transform.position);
+                positions.Add(Players[i].transform.position);
             }
         }
         
@@ -179,29 +180,23 @@ public class GameMaster : MonoBehaviour
     
     public static void UpdateLaps(Vector3 transformPosition)
     {
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
-            if (players[i].GetComponent<Movement>().lap == -1 && 
-                (((Math.Abs((triggerStart1.transform.position.y) - players[i].transform.position.y) > 0.05 
-                   && Math.Abs(triggerStart1.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((trigger2_final.transform.position.y) - players[i].transform.position.y) > 0.05 
-                      && Math.Abs(trigger2_final.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((triggerStart2.transform.position.y) - players[i].transform.position.y) > 0.05 
-                      && Math.Abs(triggerStart2.transform.position.x - players[i].transform.position.x) < 0.05)))
-                && players[i].GetComponent<Movement>().moveAllowed) {
-                players[i].GetComponent<Movement>().lap = 0;
-            }
-            else if ((((Math.Abs(transformPosition.y - triggerStart1.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart1.transform.position.x) < 0.05))
-                 || ((Math.Abs(transformPosition.y - trigger2_final.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - trigger2_final.transform.position.x) < 0.05))
-                 || ((Math.Abs(transformPosition.y - triggerStart2.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - triggerStart2.transform.position.x) < 0.05)))
-                && 
-                (((Math.Abs((triggerStart1.transform.position.y - 2) - players[i].transform.position.y) < 0.05 && Math.Abs(triggerStart1.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((trigger2_final.transform.position.y - 2) - players[i].transform.position.y) < 0.05 && Math.Abs(trigger2_final.transform.position.x - players[i].transform.position.x) < 0.05))
-                 || ((Math.Abs((triggerStart2.transform.position.y - 2) - players[i].transform.position.y) < 0.05 && Math.Abs(triggerStart2.transform.position.x - players[i].transform.position.x) < 0.05)))
-                && players[i].GetComponent<Movement>().moveAllowed)
+            if (Players[i].GetComponent<Movement>()._movesInGame < 5)
             {
-                if (players[i].GetComponent<Movement>().lap != -1) { players[i].GetComponent<Movement>().lap++; }
-                if (players[i].GetComponent<Movement>().lap == GameParams.laps)
+                Players[i].GetComponent<Movement>().lap = 0;
+            }
+            else if ((((Math.Abs(transformPosition.y - TriggerStart1.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - TriggerStart1.transform.position.x) < 0.05))
+                      || ((Math.Abs(transformPosition.y - Trigger2Final.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - Trigger2Final.transform.position.x) < 0.05))
+                      || ((Math.Abs(transformPosition.y - TriggerStart2.transform.position.y) < 0.05 && Math.Abs(transformPosition.x - TriggerStart2.transform.position.x) < 0.05)))
+                     && 
+                     (((Math.Abs((TriggerStart1.transform.position.y - 2) - Players[i].transform.position.y) < 0.05 && Math.Abs(TriggerStart1.transform.position.x - Players[i].transform.position.x) < 0.05))
+                      || ((Math.Abs((Trigger2Final.transform.position.y - 2) - Players[i].transform.position.y) < 0.05 && Math.Abs(Trigger2Final.transform.position.x - Players[i].transform.position.x) < 0.05))
+                      || ((Math.Abs((TriggerStart2.transform.position.y - 2) - Players[i].transform.position.y) < 0.05 && Math.Abs(TriggerStart2.transform.position.x - Players[i].transform.position.x) < 0.05)))
+                     && Players[i].GetComponent<Movement>().moveAllowed)
+            {
+                if (Players[i].GetComponent<Movement>().lap != -1) { Players[i].GetComponent<Movement>().lap++; }
+                if (Players[i].GetComponent<Movement>().lap == GameParams.laps)
                 {
                     GameOver.winner = "Player " + (i + 1) + " wins!";
                     SceneManager.LoadScene("TheEnd");
@@ -212,12 +207,12 @@ public class GameMaster : MonoBehaviour
     
     public static void CurrentUIGameMaster()
     {
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
-            if (players[i].GetComponent<Movement>().moveAllowed)
+            if (Players[i].GetComponent<Movement>().moveAllowed)
             {
                 PanelUIMainGameScript.CurrentPlayer = "Player " + (i + 1);
-                Sprite sprite = players[i].GetComponent<SpriteRenderer>().sprite;
+                Sprite sprite = Players[i].GetComponent<SpriteRenderer>().sprite;
                 String spriteName = sprite.name;
 
                 if (spriteName.Contains("car_red"))
@@ -239,15 +234,15 @@ public class GameMaster : MonoBehaviour
                 else if (spriteName.Contains("car_green"))
                 {
                     PanelUIMainGameScript.CurrentPlayerColor = new Color(0f, 0.5f, 0f);;
-                } 
+                }
                 else if (spriteName.Contains("car_orange"))
                 {
                     PanelUIMainGameScript.CurrentPlayerColor = new Color(1f, 0.5f, 0f);;
                 }
 
-                PanelUIMainGameScript.CurrentSpeed = players[i].GetComponent<Movement>().currentSpeed;
-                PanelUIMainGameScript.CurrentTires = players[i].GetComponent<Movement>().tires;
-                PanelUIMainGameScript.CurrentLap = players[i].GetComponent<Movement>().lap + 1;
+                PanelUIMainGameScript.CurrentSpeed = Players[i].GetComponent<Movement>().currentSpeed;
+                PanelUIMainGameScript.CurrentTires = Players[i].GetComponent<Movement>().tires;
+                PanelUIMainGameScript.CurrentLap = Players[i].GetComponent<Movement>().lap + 1;
                 break;
             }
         }
@@ -257,7 +252,7 @@ public class GameMaster : MonoBehaviour
 
     public IEnumerator RollDiceStart(int playerNumber)
     {
-        bool isCoroutineRunning = true;
+        _isCoroutineRunning = true;
 
         Dictionary<int, int> playerResultMapping = new Dictionary<int, int>();
         int playerIdx = 1;
@@ -278,7 +273,7 @@ public class GameMaster : MonoBehaviour
             
             playerIdx++;
         }
-        sortedPlayerResultMapping = playerResultMapping.OrderByDescending(x => x.Value)
+        _sortedPlayerResultMapping = playerResultMapping.OrderByDescending(x => x.Value)
             .ToDictionary(x => x.Key, x => x.Value);
 
         int maxResult = playerResultMapping.Values.Max();
@@ -287,27 +282,27 @@ public class GameMaster : MonoBehaviour
 
         if (playersWithMaxResult.Count > 1)
         {
-            startingPlayerIndex = playersWithMaxResult[Random.Range(0, playersWithMaxResult.Count)];
+            _startingPlayerIndex = playersWithMaxResult[Random.Range(0, playersWithMaxResult.Count)];
         }
         else
         {
-            startingPlayerIndex = playersWithMaxResult[0];
+            _startingPlayerIndex = playersWithMaxResult[0];
         }
 
-        isCoroutineRunning = false;
+        _isCoroutineRunning = false;
     }
     
     public int StartingPlayer
     {
         get
         {
-            if (isCoroutineRunning)
+            if (_isCoroutineRunning)
             {
                 return 0;
             }
             else
             {
-                return startingPlayerIndex;
+                return _startingPlayerIndex;
             }
         }
     }
