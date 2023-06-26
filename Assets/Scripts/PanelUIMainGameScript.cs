@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
 public class PanelUIMainGameScript : MonoBehaviour
 {
-    //todo: wpisac gracza który zaczyna
-    public static string CurrentPlayer = "Player 1";
+    //todo: wpisac gracza który zaczyna - zmienic jego kolor - zmienic kolory po rozpoczeciu nowej gry
+    public static Color CurrentPlayerColor = Color.white;
+    public static string CurrentPlayer = "Player -";
     public static int CurrentSpeed = 0;
     public static int CurrentTires = GameParams.tires;
     public static int CurrentLap = 1;
@@ -17,6 +17,12 @@ public class PanelUIMainGameScript : MonoBehaviour
     public TextMeshProUGUI TextMeshProUGUICurrentTires;
     public TextMeshProUGUI TextMeshProUGUICurrentLap;
     public TextMeshProUGUI TextMeshProUGUICurrentMovementPoints;
+
+    private void Start()
+    {
+        CurrentPlayerTextUpdate();
+    }
+
     void Update()
     {
         CurrentPlayerTextUpdate();
@@ -30,6 +36,7 @@ public class PanelUIMainGameScript : MonoBehaviour
     private void CurrentPlayerTextUpdate()
     {
         TextMeshProUGUICurrentPlayer.SetText(CurrentPlayer);
+        TextMeshProUGUICurrentPlayer.color = CurrentPlayerColor;
     }
     
     private void CurrentSpeedTextUpdate()

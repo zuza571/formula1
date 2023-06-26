@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Movement : MonoBehaviour
@@ -559,10 +558,10 @@ public class Movement : MonoBehaviour
             }
 
             PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-
-            while (NextField(transformPosition)) { yield return null; }
             GameMaster.UpdateLaps(transformPosition);
             
+            while (NextField(transformPosition)) { yield return null; }
+
             yield return new WaitForSeconds(0.1f);
         }
         
@@ -614,7 +613,7 @@ public class Movement : MonoBehaviour
     
     void RollTheDice(int rollCount) { StartCoroutine(RollDiceWithTimeout(rollCount)); }
     
-    private IEnumerator RollDiceWithTimeout(int rollCount)
+    public IEnumerator RollDiceWithTimeout(int rollCount)
     {
         // disable movement
         gameObject.transform.Rotate(0,0,0.01f);
