@@ -19,14 +19,15 @@ public class GameMaster : MonoBehaviour
     
     IEnumerator Start()
     {
-        PanelUIMainGameScript.ActivateRollingTheDicePanel = true;
-        PanelUIMainGameScript.CurrentPlayerColor = Color.white;
-        PanelUIMainGameScript.CurrentPlayer = "Player -";
-
         Players = new List<GameObject>();
         playersNumber = GameParams.players;
         Players.Add(GameObject.Find("Player1"));
         Players.Add(GameObject.Find("Player2"));
+        
+        PanelUIMainGameScript.ActivateRollingTheDicePanel = true;
+        PanelUIMainGameScript.CurrentPlayerColor = Color.white;
+        PanelUIMainGameScript.CurrentPlayer = "Player -";
+        PanelUIMainGameScript.CurrentTires = Players[0].GetComponent<Movement>().tires;
 
         TriggerStart1 = GameObject.Find("Trigger_start1");
         TriggerStart2 = GameObject.Find("Trigger_start2");

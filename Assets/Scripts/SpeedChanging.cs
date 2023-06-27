@@ -54,6 +54,5 @@ public class SpeedChanging : MonoBehaviour
         
         return playerParams;
     }
-    
-   
+
 }

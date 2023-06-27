@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -83,16 +84,18 @@ public class Movement : MonoBehaviour
         _isMoving = true;
 
         int[] playerParams = SpeedChanging.ChangeParams(_chosenSpeed, currentSpeed, tires);
+        if (playerParams[1] >= 0)
+        {
+            currentSpeed = playerParams[0];
+            tires = playerParams[1];
 
-        currentSpeed = playerParams[0];
-        tires = playerParams[1];
-
-        movementPoints = _moves[currentSpeed];
-        PanelUIMainGameScript.CurrentTires = tires;
-        PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
-        _movesInGame++;
+            movementPoints = _moves[currentSpeed];
+            PanelUIMainGameScript.CurrentTires = tires;
+            PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+            _movesInGame++;
         
-        button.gameObject.SetActive(true);
+            button.gameObject.SetActive(true);
+        }
 
         while (movementPoints > 0)
         {
@@ -563,11 +566,9 @@ public class Movement : MonoBehaviour
         button.gameObject.SetActive(false);
 
         _currentPlayer = CheckPlayerPositions();
-
         _isMoving = false;
         GameMaster.MovePlayer(_currentPlayer);
         GameMaster.CurrentUIGameMaster();
-
         _moveCoroutine = null;
     }
     
@@ -599,7 +600,7 @@ public class Movement : MonoBehaviour
                         playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
                         currentSpeed = playerParams[0];
                         tires = playerParams[1];
-                        
+
                         tires -= 1;
                         if (tires < 0)
                         {
