@@ -27,10 +27,6 @@ public class Movement : MonoBehaviour
     private bool _eachPlayerHasMoved;
     private bool _skipCurrentPlayer;
     public int _movesInGame = 0;
-    
-    private bool waiting = false;
-    private float waitTime = 4f;
-    private float timer = 0f;
 
     private Dictionary<int, int> _moves = new Dictionary<int, int>()
     {
