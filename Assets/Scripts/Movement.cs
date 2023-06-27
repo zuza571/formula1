@@ -721,22 +721,8 @@ public class Movement : MonoBehaviour
             );
             gameObject.transform.eulerAngles = eulerAngles;
         }
+        
         _isCoroutineRunning = false;
-    }
-    
-    public int DiceRoll
-    {
-        get
-        {
-            if (_isCoroutineRunning)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
     }
 
     int CheckPlayerPositions()
