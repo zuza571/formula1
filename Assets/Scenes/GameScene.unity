@@ -24646,7 +24646,7 @@ MonoBehaviour:
     hamowaniem. Przycisk Skip Turn jest innymi s\u0142owy hamowaniem awaryjnym.\n\nZako\u0144czenie
     gry \u2013 Aby uko\u0144czy\u0107 wy\u015Bcig trzeba wjecha\u0107 na jedno z
     p\xF3l mety, zamalowanych na czarno-bia\u0142\u0105 kratk\u0119 lub przejecha\u0107
-    przez takie pole. Graz, kt\xF3rego samoch\xF3d jako pierwszy wjedzie na met\u0119
+    przez takie pole. Gracz, kt\xF3rego samoch\xF3d jako pierwszy wjedzie na met\u0119
     po odpowiedniej liczbie okr\u0105\u017Ce\u0144, zostaje zwyci\u0119zc\u0105.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
