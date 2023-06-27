@@ -27,6 +27,8 @@ public class Movement : MonoBehaviour
     private bool _eachPlayerHasMoved;
     private bool _skipCurrentPlayer;
     public int _movesInGame = 0;
+    private bool _isCoroutineRunning = false;
+
 
     private Dictionary<int, int> _moves = new Dictionary<int, int>()
     {
@@ -586,6 +588,11 @@ public class Movement : MonoBehaviour
         
         button.gameObject.SetActive(false);
 
+        while (_isCoroutineRunning)
+        {
+            yield return null;
+        }
+        
         _currentPlayer = CheckPlayerPositions();
         _isMoving = false;
         GameMaster.MovePlayer(_currentPlayer);
@@ -602,6 +609,8 @@ public class Movement : MonoBehaviour
     
     public IEnumerator RollDiceWithTimeout(int rollCount)
     {
+        _isCoroutineRunning = true;
+
         // disable movement
         gameObject.transform.Rotate(0,0,0.01f);
         while (rollCount > 0)
@@ -711,6 +720,22 @@ public class Movement : MonoBehaviour
                 0f
             );
             gameObject.transform.eulerAngles = eulerAngles;
+        }
+        _isCoroutineRunning = false;
+    }
+    
+    public int DiceRoll
+    {
+        get
+        {
+            if (_isCoroutineRunning)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 
