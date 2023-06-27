@@ -96,7 +96,24 @@ public class Movement : MonoBehaviour
         
             button.gameObject.SetActive(true);
         }
-
+        else
+        {
+            PanelUIMainGameScript.ActivateHintPanel = true;
+            PanelUIMainGameScript.HintPanelText = "Not enough tires!";
+            yield return new WaitForSeconds(4f);
+            PanelUIMainGameScript.ActivateHintPanel = false;
+        }
+        
+        if (movementPoints == 0 && (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A) 
+                                                                    || Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D) || Input.GetAxis("Vertical") > 0 
+                                                                    || Input.GetKeyDown(KeyCode.W)))
+        {
+            PanelUIMainGameScript.ActivateHintPanel = true;
+            PanelUIMainGameScript.HintPanelText = "Select speed before move!";
+            yield return new WaitForSeconds(4f);
+            PanelUIMainGameScript.ActivateHintPanel = false;
+        }
+        
         while (movementPoints > 0)
         {
             
@@ -205,7 +222,7 @@ public class Movement : MonoBehaviour
                     PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                 }
             }
-            
+
             // turning 
             if (Math.Abs(_transformPosition.y - 11f) < 0.05 && Math.Abs(_transformPosition.x + 27.5f) < 0.05)
             {

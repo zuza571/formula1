@@ -10,6 +10,8 @@ public class PanelUIMainGameScript : MonoBehaviour
     public static int CurrentLap = 1;
     public static int CurrentMovementPoints = 0;
     public static bool ActivateRollingTheDicePanel = true;
+    public static bool ActivateHintPanel = false;
+    public static string HintPanelText = "Select speed before move!";
     
     public TextMeshProUGUI TextMeshProUGUICurrentPlayer;
     public TextMeshProUGUI TextMeshProUGUICurrentSpeed;
@@ -17,6 +19,8 @@ public class PanelUIMainGameScript : MonoBehaviour
     public TextMeshProUGUI TextMeshProUGUICurrentLap;
     public TextMeshProUGUI TextMeshProUGUICurrentMovementPoints;
     public GameObject RollingTheDicePanel;
+    public GameObject HintPanel;
+    public TextMeshProUGUI TextMeshProUGUIHint;
 
     private void Start()
     {
@@ -31,6 +35,7 @@ public class PanelUIMainGameScript : MonoBehaviour
         CurrentLapTextUpdate();
         CurrentMovementPointsUpdate();
         RollingTheDice();
+        UpdateHintPanel();
     }
 
     private void CurrentPlayerTextUpdate()
@@ -62,5 +67,11 @@ public class PanelUIMainGameScript : MonoBehaviour
     private void RollingTheDice()
     {
         RollingTheDicePanel.SetActive(ActivateRollingTheDicePanel);
+    }
+
+    private void UpdateHintPanel()
+    {
+        HintPanel.SetActive(ActivateHintPanel);
+        TextMeshProUGUIHint.SetText(HintPanelText);
     }
 }
