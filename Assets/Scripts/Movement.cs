@@ -27,6 +27,10 @@ public class Movement : MonoBehaviour
     private bool _eachPlayerHasMoved;
     private bool _skipCurrentPlayer;
     public int _movesInGame = 0;
+    
+    private bool waiting = false;
+    private float waitTime = 4f;
+    private float timer = 0f;
 
     private Dictionary<int, int> _moves = new Dictionary<int, int>()
     {
@@ -71,8 +75,21 @@ public class Movement : MonoBehaviour
             {
                 if (_uiScript.HasChosenSpeed)
                 {
+                    PanelUIMainGameScript.ActivateHintPanel = false;
                     _chosenSpeed = _uiScript.ChosenSpeed;
                     _moveCoroutine = StartCoroutine(Move());
+                }
+                else
+                {
+                    PanelUIMainGameScript.ActivateHintPanel = false;
+                    if (Input.GetKeyDown(KeyCode.A)
+                        || Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D) ||
+                        Input.GetAxis("Vertical") > 0
+                        || Input.GetKeyDown(KeyCode.W))
+                    {
+                        PanelUIMainGameScript.ActivateHintPanel = true;
+                        PanelUIMainGameScript.HintPanelText = "Select speed before move!";
+                    }
                 }
             } 
         }
@@ -103,17 +120,7 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds(4f);
             PanelUIMainGameScript.ActivateHintPanel = false;
         }
-        
-        if (movementPoints == 0 && (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A) 
-                                                                    || Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D) || Input.GetAxis("Vertical") > 0 
-                                                                    || Input.GetKeyDown(KeyCode.W)))
-        {
-            PanelUIMainGameScript.ActivateHintPanel = true;
-            PanelUIMainGameScript.HintPanelText = "Select speed before move!";
-            yield return new WaitForSeconds(4f);
-            PanelUIMainGameScript.ActivateHintPanel = false;
-        }
-        
+
         while (movementPoints > 0)
         {
             
