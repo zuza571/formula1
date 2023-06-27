@@ -133,6 +133,7 @@ public class Movement : MonoBehaviour
                 }
                 PanelUIMainGameScript.CurrentTires = tires;
                 PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
+                GameMaster.CurrentUIGameMaster();
                 break;
             }
             
@@ -692,7 +693,7 @@ public class Movement : MonoBehaviour
                         break;
                 }
             }
-
+            GameMaster.CurrentUIGameMaster();
             yield return new WaitForSeconds(2f);
 
             rollCount--;
