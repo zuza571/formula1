@@ -618,7 +618,7 @@ public class Movement : MonoBehaviour
                 switch (result)
                 {
                     case 1:
-                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        playerParams = SpeedChanging.ChangeParams(currentSpeed, currentSpeed, tires);
                         currentSpeed = playerParams[0];
                         tires = playerParams[1];
 
@@ -636,7 +636,7 @@ public class Movement : MonoBehaviour
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 2:
-                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        playerParams = SpeedChanging.ChangeParams(currentSpeed, currentSpeed, tires);
                         currentSpeed = playerParams[0];
                         tires = playerParams[1];
                         
@@ -654,7 +654,7 @@ public class Movement : MonoBehaviour
                         PanelUIMainGameScript.CurrentMovementPoints = movementPoints;
                         break;
                     case 3:
-                        playerParams = SpeedChanging.ChangeParams(0, currentSpeed, tires);
+                        playerParams = SpeedChanging.ChangeParams(currentSpeed, currentSpeed, tires);
                         currentSpeed = playerParams[0];
                         tires = playerParams[1];
 
